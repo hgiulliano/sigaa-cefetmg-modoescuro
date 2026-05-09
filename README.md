@@ -7,8 +7,8 @@ Extensão para Google Chrome que aplica um tema escuro no portal SIGAA do CEFET-
 1. Extraia o arquivo `.zip` em uma pasta fixa no seu computador
 2. Abra o Chrome e acesse: `chrome://extensions/`
 3. Ative o **"Modo do desenvolvedor"** (canto superior direito)
-4. Clique em **"Carregar sem compactação"**
-5. Selecione a pasta extraída (`sigaa-darkmode/`)
+4. Clique em **"Carregar sem compactação"** ou **Load Unpacked**
+5. Selecione a pasta extraída (`sigaa-cefetmg-modoescuro-main/`)
 6. Acesse `https://sig.cefetmg.br/sigaa/` e aproveite! 🎉
 
 ## 🎨 Paleta de Cores
