@@ -1,0 +1,242 @@
+/*
+ * SIGAA Dark Mode — CEFET-MG
+ * SOMENTE CORES. Sem layout, sem tamanho, sem posição.
+ */
+
+/* 1. BASE */
+html, body,
+div, section, article, aside, main, header, footer, nav,
+td, th, tr, tbody, thead, tfoot,
+form, fieldset, ul, ol, li,
+.contentContainer,
+#wrapper, #conteudo, #conteudo-wrapper,
+.conteudo, .conteudoPrincipal {
+  background-color: #2c2c2c !important;
+  color: #e0e0e0 !important;
+  border-color: #333 !important;
+}
+
+/* 2. HEADER / TOPO */
+#aba-menus,
+.aba-menus,
+#header,
+.header,
+#cabecalho,
+.cabecalho,
+.header-sigaa,
+#headerSIGAA,
+.barra-menus,
+.menu-bar,
+#servicos-servidor,
+#servicos-discente,
+#menu-horizontal,
+.menu-horizontal {
+  background-color: #1a1a1a !important;
+  background-image: none !important;
+  border-color: #333 !important;
+  color: #e0e0e0 !important;
+}
+
+#aba-menus *,
+.barra-menus *,
+#servicos-servidor *,
+#servicos-discente * {
+  background-color: transparent !important;
+  color: #e0e0e0 !important;
+  border-color: #333 !important;
+}
+
+/* 3. LINKS */
+a, a:link, a:visited, a:hover, a:focus, a:active,
+span.sigla, span.nome, span.disciplina, span.titulo,
+.titulo a, .nome a,
+td a, th a, li a, div a,
+.painel a, .painel-discente a,
+table a, .listagem a,
+.menu-vertical a, .menu-horizontal a {
+  color: #8ab4f8 !important;
+}
+a:hover, a:focus {
+  color: #aecbfa !important;
+}
+
+/* 4. TABELAS */
+table,
+table.listagem,
+table.formulario,
+table.boletim,
+table.grade-curricular,
+.painel-discente table,
+.painel table {
+  background-color: #1e1e1e !important;
+  border: 1px solid #333 !important;
+}
+
+td, th {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+  border: 1px solid #333 !important;
+}
+
+th,
+thead td,
+thead th,
+.rich-table-header td,
+.rich-table-header th,
+table.listagem thead th,
+table.listagem th {
+  background-color: #2a2a2a !important;
+  color: #e0e0e0 !important;
+  border: 1px solid #333 !important;
+}
+
+tr:nth-child(even) td {
+  background-color: #202020 !important;
+}
+
+/* 5. PAINEIS */
+.painel,
+.painel-discente,
+.panel,
+.portlet,
+.box,
+.bloco,
+.modulo,
+[class*="painel"],
+[class*="panel"] {
+  background-color: #1e1e1e !important;
+  border: 1px solid #333 !important;
+  color: #e0e0e0 !important;
+}
+
+.painel .titulo,
+.painel-discente .titulo,
+[class*="panelHeader"],
+[class*="painelHeader"],
+.panel-heading {
+  background-color: #2a2a2a !important;
+  color: #e0e0e0 !important;
+  border-bottom: 1px solid #333 !important;
+}
+
+/* 6. FORMULARIOS */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="date"],
+textarea,
+select {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+  border: 1px solid #444 !important;
+}
+select option {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+}
+label, legend {
+  color: #e0e0e0 !important;
+}
+
+/* 7. MENU */
+#menu-geral,
+.menu-vertical,
+.sidebar,
+.nav,
+nav {
+  background-color: #1a1a1a !important;
+  color: #e0e0e0 !important;
+  border-color: #333 !important;
+}
+#menu-geral li,
+.menu-vertical li,
+nav li {
+  background-color: transparent !important;
+  border-color: #333 !important;
+  color: #e0e0e0 !important;
+}
+
+/* 8. BANNERS LATERAIS - fundo branco para preservar imagens */
+#boxes-externos img,
+#links-externos img,
+.menu-externo img,
+#menu-externo img,
+.banner-lateral img,
+#banner-lateral img,
+aside img,
+.sidebar img,
+#sidebar img,
+.box-imagem img,
+[id*="externo"] img,
+[class*="externo"] img,
+[id*="banner"] img,
+[class*="banner"] img {
+  background-color: #fff !important;
+  padding: 4px !important;
+}
+
+/* 9. BOTOES */
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+button,
+.btn,
+.botao {
+  background-color: #2a2a2a !important;
+  color: #8ab4f8 !important;
+  border: 1px solid #444 !important;
+}
+input[type="button"]:hover,
+input[type="submit"]:hover,
+button:hover,
+.btn:hover,
+.botao:hover {
+  background-color: #333 !important;
+  color: #aecbfa !important;
+}
+
+/* 10. ALERTAS */
+.aviso, .erro, .sucesso, .info,
+.erroMensagem, .sucessoMensagem, .infoMensagem,
+[class*="erro"], [class*="error"] {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+  border-color: #555 !important;
+}
+
+/* 11. MODAL */
+.ui-dialog,
+.ui-dialog-titlebar,
+.ui-dialog-content,
+.ui-dialog-buttonpane {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+  border-color: #333 !important;
+}
+
+/* 12. IMAGENS: NAO INVERTER */
+img, svg, canvas {
+  filter: none !important;
+}
+
+/* 13. INLINE WHITES */
+[style*="background-color:#fff"],
+[style*="background-color: #fff"],
+[style*="background-color:white"],
+[style*="background-color: white"],
+[style*="background:#fff"],
+[style*="background: #fff"],
+[style*="background:white"],
+[style*="background: white"] {
+  background-color: #1e1e1e !important;
+}
+[style*="color:#000"],
+[style*="color: #000"],
+[style*="color:black"],
+[style*="color: black"],
+[style*="color:#333"],
+[style*="color: #333"] {
+  color: #e0e0e0 !important;
+}

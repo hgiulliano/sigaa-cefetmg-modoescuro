@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SIGAA Dark Mode</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 280px;
+      background: #121212;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0f172a 0%, #1a2236 100%);
+      padding: 16px 18px;
+      border-bottom: 1px solid #2c3e6a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header .icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .header-text h1 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #90caf9;
+      letter-spacing: 0.04em;
+    }
+
+    .header-text p {
+      font-size: 10px;
+      color: #607d9a;
+      margin-top: 2px;
+    }
+
+    .body {
+      padding: 18px;
+    }
+
+    /* Toggle switch */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+
+    .toggle-label {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .toggle-label span:first-child {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e0e0e0;
+    }
+
+    .toggle-label span:last-child {
+      font-size: 10px;
+      color: #777;
+    }
+
+    .switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+    }
+
+    .switch input { display: none; }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #333;
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background 0.25s ease;
+    }
+
+    .slider::before {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 3px;
+      top: 3px;
+      background: #777;
+      border-radius: 50%;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    input:checked + .slider {
+      background: #1e3a5f;
+    }
+
+    input:checked + .slider::before {
+      transform: translateX(20px);
+      background: #90caf9;
+    }
+
+    /* Status badge */
+    .status {
+      text-align: center;
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+    }
+
+    .status.on {
+      background: rgba(144,202,249,.12);
+      color: #90caf9;
+      border: 1px solid rgba(144,202,249,.3);
+    }
+
+    .status.off {
+      background: rgba(255,255,255,.04);
+      color: #555;
+      border: 1px solid #333;
+    }
+
+    /* Paleta de cores */
+    .palette {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+
+    .palette-title {
+      font-size: 10px;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .swatches {
+      display: flex;
+      gap: 6px;
+    }
+
+    .swatch {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1px solid #333;
+      flex-shrink: 0;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid #222;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer span {
+      font-size: 9px;
+      color: #444;
+    }
+
+    .version {
+      font-size: 9px;
+      color: #444;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 2px 7px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="icon">🌙</div>
+    <div class="header-text">
+      <h1>SIGAA Dark Mode</h1>
+      <p>CEFET-MG · sig.cefetmg.br</p>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="toggle-row">
+      <div class="toggle-label">
+        <span>Modo Escuro</span>
+        <span>Deep Dark Theme</span>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="darkToggle" checked/>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="status on" id="statusBadge">● ATIVO — tema aplicado</div>
+
+    <div class="palette">
+      <div class="palette-title">Paleta Deep Dark</div>
+      <div class="swatches">
+        <div class="swatch" style="background:#121212" title="#121212 — Fundo Base"></div>
+        <div class="swatch" style="background:#1e1e1e" title="#1e1e1e — Superfície"></div>
+        <div class="swatch" style="background:#1a2236" title="#1a2236 — Header"></div>
+        <div class="swatch" style="background:#90caf9" title="#90caf9 — Azul Primário"></div>
+        <div class="swatch" style="background:#80cbc4" title="#80cbc4 — Teal"></div>
+        <div class="swatch" style="background:#a5d6a7" title="#a5d6a7 — Verde"></div>
+        <div class="swatch" style="background:#ef9a9a" title="#ef9a9a — Vermelho"></div>
+        <div class="swatch" style="background:#e0e0e0" title="#e0e0e0 — Texto"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Recarregue a página ao alternar</span>
+    <span class="version">v1.0.0</span>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
