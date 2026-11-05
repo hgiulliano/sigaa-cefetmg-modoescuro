@@ -86,14 +86,6 @@ Clique no ícone da extensão na barra do Chrome para **ligar ou desligar** o mo
 
 ---
 
-## Problemas conhecidos
-
-- [ ] O título **"Turmas do Semestre"** da página inicial fica com baixo contraste.
-
-Achou outro? Veja abaixo como reportar.
-
----
-
 ## Privacidade e permissões
 
 A extensão **não coleta, armazena nem envia nenhum dado seu**. Todo o código roda localmente no seu navegador e é aberto para você conferir.
