@@ -128,11 +128,18 @@ Este projeto foi desenvolvido com auxílio de Inteligência Artificial ([Claude]
 
 O SIGAA é um sistema legado, com centenas de telas e estruturas dinâmicas, então **podem existir bugs visuais ou textos com pouco contraste** em páginas específicas. A extensão foi feita de aluno para aluno, para "quebrar um galho" e poupar nossa visão durante a madrugada. Se achar algo, abra uma Issue. Ajuda muito!
 
----
 
+---
 ## Licença
 
 Distribuído sob a licença [MIT](LICENSE).
+
+---
+<div align="center">
+
+[Política de Privacidade](https://gist.github.com/hgiulliano/0c154e28da48c9751e743187ea09aebc)
+
+</div>
 
 ---
 
