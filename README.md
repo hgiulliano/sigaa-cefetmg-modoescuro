@@ -5,7 +5,7 @@
 **Tema escuro para o portal SIGAA do CEFET-MG.**
 Feito de aluno para aluno, pra poupar a vista nas madrugadas de estudo.
 
-![Chrome](https://img.shields.io/badge/Chrome-Extension-4285F4?logo=googlechrome&logoColor=white)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-instalar-4285F4?logo=googlechrome&logoColor=white)](LINK_DA_LOJA)
 ![Manifest](https://img.shields.io/badge/Manifest-V3-green)
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-orange)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -26,7 +26,18 @@ Feito de aluno para aluno, pra poupar a vista nas madrugadas de estudo.
 
 ## Instalação
 
-A extensão ainda não está na Chrome Web Store, então a instalação é feita pelo **modo desenvolvedor**. Leva menos de 2 minutos.
+### Opção 1: Chrome Web Store (recomendado)
+
+1. Acesse a [página da extensão na Chrome Web Store](LINK_DA_LOJA).
+2. Clique em **Usar no Chrome** (ou **Adicionar ao Chrome**).
+3. Confirme em **Adicionar extensão**.
+4. Acesse [sig.cefetmg.br/sigaa](https://sig.cefetmg.br/sigaa/) e pronto!
+
+As atualizações chegam automaticamente.
+
+### Opção 2: Instalação manual (modo desenvolvedor)
+
+Útil se você quiser testar o código ou uma versão mais recente que ainda não chegou à loja.
 
 1. Nesta página, clique no botão verde **Code** e depois em **Download ZIP**.
 2. Extraia o `.zip` em uma pasta fixa do seu computador.
@@ -40,19 +51,11 @@ A extensão ainda não está na Chrome Web Store, então a instalação é feita
 > Selecione a pasta que contém o arquivo `manifest.json` **diretamente dentro dela**. Em alguns casos o Windows cria uma pasta dentro de outra com o mesmo nome ao extrair; se der erro de "arquivo de manifesto ausente", é isso.
 
 > [!WARNING]
-> Não apague nem mova a pasta depois de instalar, senão o Chrome desativa a extensão.
+> Na instalação manual, não apague nem mova a pasta depois de instalar, senão o Chrome desativa a extensão. Também não há atualização automática: para atualizar, baixe o ZIP de novo, substitua os arquivos da pasta e clique no botão de recarregar da extensão em `chrome://extensions/`.
 
 ### Dica: fixe a extensão na barra
 
 Clique no ícone de quebra-cabeça ao lado da barra de endereço e depois no alfinete ao lado de **SIGAA Dark Mode**. Assim o botão de ligar/desligar fica sempre à mão.
-
-### Como atualizar
-
-Quem instala pelo ZIP não recebe atualizações automáticas:
-
-1. Baixe o ZIP novamente.
-2. Substitua os arquivos da pasta antiga pelos novos.
-3. Em `chrome://extensions/`, clique no botão de recarregar da extensão.
 
 ---
 
@@ -88,7 +91,7 @@ Clique no ícone da extensão na barra do Chrome para **ligar ou desligar** o mo
 
 ## Privacidade e permissões
 
-A extensão **não coleta, armazena nem envia nenhum dado seu**. Todo o código roda localmente no seu navegador e é aberto para você conferir.
+A extensão **não coleta, armazena nem envia nenhum dado seu**. Todo o código roda localmente no seu navegador e é aberto para você conferir. Leia a [Política de Privacidade](https://gist.github.com/hgiulliano/0c154e28da48c9751e743187ea09aebc).
 
 | Permissão | Para que serve |
 |---|---|
@@ -128,18 +131,11 @@ Este projeto foi desenvolvido com auxílio de Inteligência Artificial ([Claude]
 
 O SIGAA é um sistema legado, com centenas de telas e estruturas dinâmicas, então **podem existir bugs visuais ou textos com pouco contraste** em páginas específicas. A extensão foi feita de aluno para aluno, para "quebrar um galho" e poupar nossa visão durante a madrugada. Se achar algo, abra uma Issue. Ajuda muito!
 
-
 ---
+
 ## Licença
 
 Distribuído sob a licença [MIT](LICENSE).
-
----
-<div align="center">
-
-[Política de Privacidade](https://gist.github.com/hgiulliano/0c154e28da48c9751e743187ea09aebc)
-
-</div>
 
 ---
 
