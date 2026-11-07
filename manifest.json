@@ -4,7 +4,7 @@
   "short_name": "SIGAA Dark",
   "description": "Tema Deep Dark para o portal SIGAA do CEFET-MG. Menos luz, mais foco.",
   "version": "1.0.0",
-  "author": "Você mesmo",
+  "author": "Henrique Giulliano",
 
   "icons": {
     "16":  "icons/icon16.png",
@@ -37,11 +37,8 @@
     }
   ],
 
-  "permissions": ["storage", "scripting"],
-
-  "host_permissions": [
-    "https://sig.cefetmg.br/*",
-    "https://sigaa.cefetmg.br/*"
+  "permissions": [
+    "storage"
   ],
 
   "background": {
