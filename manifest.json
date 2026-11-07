@@ -41,6 +41,11 @@
     "storage"
   ],
 
+  "host_permissions": [
+    "https://sig.cefetmg.br/*",
+    "https://sigaa.cefetmg.br/*"
+  ],
+
   "background": {
     "service_worker": "background.js"
   }
