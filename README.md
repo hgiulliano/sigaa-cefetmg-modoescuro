@@ -250,8 +250,6 @@ Distribuído sob a licença [MIT](LICENSE).
 
 ---
 
-<br><br>
-
 Feito por [@hgiulliano](https://github.com/hgiulliano)
 
 </div>
