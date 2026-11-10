@@ -1,242 +1,959 @@
 /*
  * SIGAA Dark Mode — CEFET-MG
- * SOMENTE CORES. Sem layout, sem tamanho, sem posição.
+ * ─────────────────────────────────────────────────────────────────────────────
+ * TEMA ESCURO (somente cores — sem layout, tamanho ou posição).
+ *
+ * TODAS as regras ficam dentro de `html.sigaa-dark-mode`.
+ * Isso é o que faz o toggle do popup funcionar: sem a classe no <html> a página
+ * volta a ser exatamente o SIGAA original (tema claro), e com a classe o tema
+ * escuro é aplicado. A classe é colocada/removida pelo content.js.
+ *
+ * Paleta alinhada com os quadradinhos mostrados no popup.
  */
 
-/* 1. BASE */
-html, body,
-div, section, article, aside, main, header, footer, nav,
-td, th, tr, tbody, thead, tfoot,
-form, fieldset, ul, ol, li,
-.contentContainer,
-#wrapper, #conteudo, #conteudo-wrapper,
-.conteudo, .conteudoPrincipal {
-  background-color: #2c2c2c !important;
-  color: #e0e0e0 !important;
-  border-color: #333 !important;
+/* ═══════════════════════════════════════════════════════════════════════════
+   TEMAS — 5 paletas. O content.js bota `data-sd-tema` no <html>; sem atributo
+   (ou "deep-dark") vale a primeira. Todas as regras abaixo usam var(--sd-*),
+   então trocar de tema é só trocar as variáveis.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* cores comuns a todos os temas (semânticas: não mudam com a paleta) */
+html.sigaa-dark-mode {
+  --sd-blue:  #90caf9;
+  --sd-teal:  #80cbc4;
+  --sd-green: #a5d6a7;
+  --sd-red:   #ef9a9a;
+  --sd-amber: #ffcc80;
+
+  /* unica area que continua clara: o popup de Modulos/Portais, cujos icones
+     sao `background-image` (nao da para escurecer sem perder os icones). */
+  --sd-light-bg:     #dfe7f3;
+  --sd-light-text:   #0b2a4a;
+  --sd-light-border: #b9c9e0;
 }
 
-/* 2. HEADER / TOPO */
-#aba-menus,
-.aba-menus,
-#header,
-.header,
-#cabecalho,
-.cabecalho,
-.header-sigaa,
-#headerSIGAA,
-.barra-menus,
-.menu-bar,
-#servicos-servidor,
-#servicos-discente,
-#menu-horizontal,
-.menu-horizontal {
-  background-color: #1a1a1a !important;
+/* 1) DEEP DARK — o original, cinza neutro com toque azulado */
+html.sigaa-dark-mode,
+html.sigaa-dark-mode[data-sd-tema="deep-dark"] {
+  --sd-page:    #121212;
+  --sd-surface: #1e1e1e;
+  --sd-raised:  #26262a;
+  --sd-header:  #1a2236;
+  --sd-border:  #333333;
+  --sd-border-strong: #484848;
+  --sd-text:     #e0e0e0;
+  --sd-text-dim: #a6a6b0;
+  --sd-link:        #8ab4f8;
+  --sd-link-hover:  #aecbfa;
+}
+
+/* 2) ROXO */
+html.sigaa-dark-mode[data-sd-tema="roxo"] {
+  --sd-page:    #170f2b;
+  --sd-surface: #1f1836;
+  --sd-raised:  #292045;
+  --sd-header:  #2b2049;
+  --sd-border:  #3d3159;
+  --sd-border-strong: #57497e;
+  --sd-text:     #e9e2f7;
+  --sd-text-dim: #b0a2cc;
+  --sd-link:        #c9a6ff;
+  --sd-link-hover:  #e2ccff;
+}
+
+/* 3) ROSA */
+html.sigaa-dark-mode[data-sd-tema="rosa"] {
+  --sd-page:    #200d15;
+  --sd-surface: #2c1620;
+  --sd-raised:  #381e2b;
+  --sd-header:  #3d2030;
+  --sd-border:  #4e2c3c;
+  --sd-border-strong: #6e3f53;
+  --sd-text:     #f7e4eb;
+  --sd-text-dim: #cba5b4;
+  --sd-link:        #ff9ec4;
+  --sd-link-hover:  #ffc2da;
+}
+
+/* 4) VERDE */
+html.sigaa-dark-mode[data-sd-tema="verde"] {
+  --sd-page:    #0b1c13;
+  --sd-surface: #12291b;
+  --sd-raised:  #1a3524;
+  --sd-header:  #183a26;
+  --sd-border:  #27452f;
+  --sd-border-strong: #386046;
+  --sd-text:     #dceedf;
+  --sd-text-dim: #a0c4ac;
+  --sd-link:        #7ddba3;
+  --sd-link-hover:  #a6eec2;
+}
+
+/* 5) VERMELHO */
+html.sigaa-dark-mode[data-sd-tema="vermelho"] {
+  --sd-page:    #1e0b0b;
+  --sd-surface: #291414;
+  --sd-raised:  #341c1c;
+  --sd-header:  #3a1b1b;
+  --sd-border:  #4a2626;
+  --sd-border-strong: #683838;
+  --sd-text:     #f5e2e2;
+  --sd-text-dim: #c8a4a4;
+  --sd-link:        #ff9e9e;
+  --sd-link-hover:  #ffbdbd;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. BASE — tudo escuro
+   Cobre elementos que o CSS do SIGAA pinta de branco/cinza claro e que a
+   versão anterior deixava passar (h2, caption, span, p, fieldset…).
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.sigaa-dark-mode,
+html.sigaa-dark-mode body,
+html.sigaa-dark-mode div, html.sigaa-dark-mode span, html.sigaa-dark-mode p,
+html.sigaa-dark-mode section, html.sigaa-dark-mode article, html.sigaa-dark-mode aside,
+html.sigaa-dark-mode main, html.sigaa-dark-mode header, html.sigaa-dark-mode footer,
+html.sigaa-dark-mode nav, html.sigaa-dark-mode figure, html.sigaa-dark-mode figcaption,
+html.sigaa-dark-mode address, html.sigaa-dark-mode details, html.sigaa-dark-mode summary,
+html.sigaa-dark-mode h1, html.sigaa-dark-mode h2, html.sigaa-dark-mode h3,
+html.sigaa-dark-mode h4, html.sigaa-dark-mode h5, html.sigaa-dark-mode h6,
+html.sigaa-dark-mode caption, html.sigaa-dark-mode colgroup, html.sigaa-dark-mode col,
+html.sigaa-dark-mode table, html.sigaa-dark-mode thead, html.sigaa-dark-mode tbody,
+html.sigaa-dark-mode tfoot, html.sigaa-dark-mode tr, html.sigaa-dark-mode td, html.sigaa-dark-mode th,
+html.sigaa-dark-mode ul, html.sigaa-dark-mode ol, html.sigaa-dark-mode li,
+html.sigaa-dark-mode dl, html.sigaa-dark-mode dt, html.sigaa-dark-mode dd,
+html.sigaa-dark-mode form, html.sigaa-dark-mode fieldset, html.sigaa-dark-mode legend,
+html.sigaa-dark-mode hr, html.sigaa-dark-mode pre, html.sigaa-dark-mode blockquote,
+html.sigaa-dark-mode label, html.sigaa-dark-mode small, html.sigaa-dark-mode strong,
+html.sigaa-dark-mode b, html.sigaa-dark-mode em, html.sigaa-dark-mode i, html.sigaa-dark-mode code,
+html.sigaa-dark-mode iframe {
+  background-color: var(--sd-surface) !important;
+  color: var(--sd-text) !important;
+  border-color: var(--sd-border) !important;
+}
+
+html.sigaa-dark-mode,
+html.sigaa-dark-mode body {
+  background-color: var(--sd-page) !important;
+}
+
+/* bordas: mantém a espessura original do SIGAA, troca só a cor */
+html.sigaa-dark-mode td,
+html.sigaa-dark-mode th,
+html.sigaa-dark-mode table,
+html.sigaa-dark-mode li,
+html.sigaa-dark-mode div,
+html.sigaa-dark-mode span,
+html.sigaa-dark-mode fieldset {
+  border-color: var(--sd-border) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. TOPO / CABEÇALHO
+   Os containers ficam TRANSPARENTES de propósito. No tema claro o SIGAA pinta
+   faixas azuis/bege atrás do nome, do semestre, da diretoria etc.; no escuro
+   essas faixas virariam "barras pretas" atrás do texto, que é justamente o
+   que incomoda. O texto fica direto sobre o fundo da página.
+   A única área que mantém fundo é a barra de módulos: é navegação, e sem
+   fundo os itens ficariam soltos no meio da tela.
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.sigaa-dark-mode #cabecalho,
+html.sigaa-dark-mode #info-sistema,
+html.sigaa-dark-mode #info-usuario,
+html.sigaa-dark-mode #painel-usuario,
+html.sigaa-dark-mode #menu-usuario,
+html.sigaa-dark-mode #container,
+html.sigaa-dark-mode #conteudo,
+html.sigaa-dark-mode #rodape {
+  background-color: transparent !important;
+  background-image: none !important;   /* barra_fundo.png e texturas do topo */
+}
+html.sigaa-dark-mode #rodape {
+  border-top: 1px solid var(--sd-border) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2.1 SEPARAÇÃO ENTRE AS COLUNAS
+   Sem fundo nos containers, a coluna principal e o painel do perfil ficariam
+   indistinguíveis. A separação é feita por um divisor vertical fino de 1px
+   (box-shadow, porque não altera o tamanho do elemento, diferente de border).
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.sigaa-dark-mode #perfil-docente,
+html.sigaa-dark-mode #main-docente,
+html.sigaa-dark-mode #perfil-docente .pessoal-docente,
+html.sigaa-dark-mode #perfil-docente .info-docente,
+html.sigaa-dark-mode #perfil-docente #agenda-docente,
+html.sigaa-dark-mode #perfil-docente #form_links,
+html.sigaa-dark-mode #main-docente .simple-panel,
+html.sigaa-dark-mode #main-docente #noticias-portal,
+html.sigaa-dark-mode #main-docente #turmas-portal,
+html.sigaa-dark-mode #main-docente #participantes,
+html.sigaa-dark-mode #main-docente #avaliacao-portal,
+html.sigaa-dark-mode #main-docente #forum-portal {
+  background-color: transparent !important;
+}
+html.sigaa-dark-mode #perfil-docente {
+  box-shadow: inset 1px 0 0 var(--sd-border);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2.2 TEXTOS E TÍTULOS FLUTUANDO
+   Títulos, legendas e textos também ficam sem fundo, para não existir nenhuma
+   faixa atrás da escrita. Só células de tabela, campos de formulário, botões e
+   a barra de módulos mantêm fundo — tudo que é "componente", não "texto".
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.sigaa-dark-mode h1, html.sigaa-dark-mode h2, html.sigaa-dark-mode h3,
+html.sigaa-dark-mode h4, html.sigaa-dark-mode h5, html.sigaa-dark-mode h6,
+html.sigaa-dark-mode caption, html.sigaa-dark-mode legend,
+html.sigaa-dark-mode p, html.sigaa-dark-mode span,
+html.sigaa-dark-mode small, html.sigaa-dark-mode strong, html.sigaa-dark-mode b,
+html.sigaa-dark-mode em, html.sigaa-dark-mode i,
+html.sigaa-dark-mode dt, html.sigaa-dark-mode dd,
+html.sigaa-dark-mode div.descricaoOperacao {
+  background-color: transparent !important;
   background-image: none !important;
-  border-color: #333 !important;
-  color: #e0e0e0 !important;
 }
 
-#aba-menus *,
-.barra-menus *,
-#servicos-servidor *,
-#servicos-discente * {
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. LINKS
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.sigaa-dark-mode a,
+html.sigaa-dark-mode a:link,
+html.sigaa-dark-mode a:visited,
+html.sigaa-dark-mode a:hover,
+html.sigaa-dark-mode a:focus,
+html.sigaa-dark-mode a:active {
+  color: var(--sd-link) !important;
+}
+html.sigaa-dark-mode a:hover,
+html.sigaa-dark-mode a:focus {
+  color: var(--sd-link-hover) !important;
+}
+
+/* links dentro do popup de módulos/portais (que continua claro) */
+html.sigaa-dark-mode #modulos li a,
+html.sigaa-dark-mode #portais li a,
+html.sigaa-dark-mode #menu_principal li a {
+  color: var(--sd-light-text) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. TABELAS E RELATÓRIOS
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.sigaa-dark-mode table,
+html.sigaa-dark-mode table.listagem,
+html.sigaa-dark-mode table.subListagem,
+html.sigaa-dark-mode table.formulario,
+html.sigaa-dark-mode table.subFormulario,
+html.sigaa-dark-mode table.visualizacao,
+html.sigaa-dark-mode table.tabelaRelatorio,
+html.sigaa-dark-mode table.tabelaRelatorioBorda,
+html.sigaa-dark-mode table.subTabelaRelatorio,
+html.sigaa-dark-mode .painel table,
+html.sigaa-dark-mode #main-docente table,
+html.sigaa-dark-mode #agenda-docente table,
+html.sigaa-dark-mode #relatorio table {
+  background-color: var(--sd-surface) !important;
+}
+
+/* cabeçalhos de tabela um pouco mais claros que o corpo */
+html.sigaa-dark-mode table > thead > tr > th,
+html.sigaa-dark-mode table > thead > tr > td,
+html.sigaa-dark-mode table.listagem > thead > tr > th,
+html.sigaa-dark-mode table.listagem > thead > tr > td,
+html.sigaa-dark-mode table.tabelaRelatorio > thead td,
+html.sigaa-dark-mode table.tabelaRelatorio > thead th,
+html.sigaa-dark-mode thead.listagem,
+html.sigaa-dark-mode .rich-table-header,
+html.sigaa-dark-mode caption.documento,
+html.sigaa-dark-mode caption.subRelatorio,
+html.sigaa-dark-mode td.subListagem,
+html.sigaa-dark-mode td.subFormulario,
+html.sigaa-dark-mode td.azulClaro,
+html.sigaa-dark-mode td.azulMedio,
+html.sigaa-dark-mode td.azulEscuro,
+html.sigaa-dark-mode tr.titulo td,
+html.sigaa-dark-mode tr.grupo td,
+html.sigaa-dark-mode tr.periodo td,
+html.sigaa-dark-mode tr.disciplina td,
+html.sigaa-dark-mode tr.nivel td,
+html.sigaa-dark-mode tr.secao td,
+html.sigaa-dark-mode tr.secao th,
+html.sigaa-dark-mode tr.destaque,
+html.sigaa-dark-mode tbody tr.destaque,
+html.sigaa-dark-mode .ext_cabecalho,
+html.sigaa-dark-mode .ext_menu,
+html.sigaa-dark-mode .infoAltRem,
+html.sigaa-dark-mode .infoAltRem h4,
+html.sigaa-dark-mode .linhaParRelatorio,
+html.sigaa-dark-mode .newtitle {
+  background-color: var(--sd-raised) !important;
+  background-image: none !important;   /* bg_caption.gif, div_left.gif, etc. */
+  color: var(--sd-text) !important;
+  border-color: var(--sd-border) !important;
+}
+
+/* zebra do SIGAA (.linhaPar/.linhaImpar/.odd/.even) respeitada */
+html.sigaa-dark-mode tr.linhaImpar td,
+html.sigaa-dark-mode tr.even td,
+html.sigaa-dark-mode tr:nth-child(odd) td {
+  background-color: var(--sd-raised) !important;
+}
+html.sigaa-dark-mode tr.linhaPar td,
+html.sigaa-dark-mode tr.odd td,
+html.sigaa-dark-mode td.colPar,
+html.sigaa-dark-mode td.colImpar {
+  background-color: var(--sd-surface) !important;
+}
+
+/* rodapés de tabela */
+html.sigaa-dark-mode table > tfoot,
+html.sigaa-dark-mode table > tfoot td,
+html.sigaa-dark-mode tfoot.listagem,
+html.sigaa-dark-mode table.formulario tfoot tr,
+html.sigaa-dark-mode table.listagem > tfoot td {
+  background-color: var(--sd-raised) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   6. PAINÉIS / PORTLETS / ABAS
+   ═══════════════════════════════════════════════════════════════════════════ */
+/* Containers de conteudo tambem ficam transparentes: sem faixa atras do texto.
+   (Os blocos do portal/discente foram tratados na secao 2.1.) */
+html.sigaa-dark-mode #operacoes-subsistema,
+html.sigaa-dark-mode div.aba,
+html.sigaa-dark-mode div.conteudoAba,
+html.sigaa-dark-mode .box-geral,
+html.sigaa-dark-mode .box-geral .box-secao,
+html.sigaa-dark-mode .panel-container,
+html.sigaa-dark-mode .rich-panel-body,
+html.sigaa-dark-mode .rich-tabpanel-content {
   background-color: transparent !important;
-  color: #e0e0e0 !important;
-  border-color: #333 !important;
+  color: var(--sd-text) !important;
+}
+/* Paineis de formulario (matricula, relatorios) mantem fundo: sao blocos de
+   dados densos e precisam de delimiteacao para nao virar uma sopa de texto. */
+html.sigaa-dark-mode div.formulario,
+html.sigaa-dark-mode div.subFormulario,
+html.sigaa-dark-mode .caixaBranca,
+html.sigaa-dark-mode .msgPane {
+  background-color: var(--sd-surface) !important;
+  color: var(--sd-text) !important;
 }
 
-/* 3. LINKS */
-a, a:link, a:visited, a:hover, a:focus, a:active,
-span.sigla, span.nome, span.disciplina, span.titulo,
-.titulo a, .nome a,
-td a, th a, li a, div a,
-.painel a, .painel-discente a,
-table a, .listagem a,
-.menu-vertical a, .menu-horizontal a {
-  color: #8ab4f8 !important;
-}
-a:hover, a:focus {
-  color: #aecbfa !important;
-}
-
-/* 4. TABELAS */
-table,
-table.listagem,
-table.formulario,
-table.boletim,
-table.grade-curricular,
-.painel-discente table,
-.painel table {
-  background-color: #1e1e1e !important;
-  border: 1px solid #333 !important;
+/* ═══════════════════════════════════════════════════════════════════════════
+   7. FORMULÁRIOS
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.sigaa-dark-mode input[type="text"],
+html.sigaa-dark-mode input[type="password"],
+html.sigaa-dark-mode input[type="email"],
+html.sigaa-dark-mode input[type="number"],
+html.sigaa-dark-mode input[type="search"],
+html.sigaa-dark-mode input[type="date"],
+html.sigaa-dark-mode input[type="time"],
+html.sigaa-dark-mode input[type="tel"],
+html.sigaa-dark-mode input[type="url"],
+html.sigaa-dark-mode input[type="file"],
+html.sigaa-dark-mode textarea,
+html.sigaa-dark-mode select,
+html.sigaa-dark-mode select option {
+  background-color: var(--sd-surface) !important;
+  color: var(--sd-text) !important;
+  border-color: var(--sd-border-strong) !important;
 }
 
-td, th {
-  background-color: #1e1e1e !important;
-  color: #e0e0e0 !important;
-  border: 1px solid #333 !important;
+html.sigaa-dark-mode input::placeholder,
+html.sigaa-dark-mode textarea::placeholder {
+  color: var(--sd-text-dim) !important;
+  opacity: 1;
 }
 
-th,
-thead td,
-thead th,
-.rich-table-header td,
-.rich-table-header th,
-table.listagem thead th,
-table.listagem th {
-  background-color: #2a2a2a !important;
-  color: #e0e0e0 !important;
-  border: 1px solid #333 !important;
+/* foco: anel dourado do SIGAA preservado, só que legível no escuro */
+html.sigaa-dark-mode input:focus,
+html.sigaa-dark-mode textarea:focus,
+html.sigaa-dark-mode select:focus {
+  background-color: var(--sd-raised) !important;
+  border-color: var(--sd-amber) !important;
+  outline: none;
 }
 
-tr:nth-child(even) td {
-  background-color: #202020 !important;
-}
-
-/* 5. PAINEIS */
-.painel,
-.painel-discente,
-.panel,
-.portlet,
-.box,
-.bloco,
-.modulo,
-[class*="painel"],
-[class*="panel"] {
-  background-color: #1e1e1e !important;
-  border: 1px solid #333 !important;
-  color: #e0e0e0 !important;
-}
-
-.painel .titulo,
-.painel-discente .titulo,
-[class*="panelHeader"],
-[class*="painelHeader"],
-.panel-heading {
-  background-color: #2a2a2a !important;
-  color: #e0e0e0 !important;
-  border-bottom: 1px solid #333 !important;
-}
-
-/* 6. FORMULARIOS */
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="number"],
-input[type="search"],
-input[type="date"],
-textarea,
-select {
-  background-color: #1e1e1e !important;
-  color: #e0e0e0 !important;
-  border: 1px solid #444 !important;
-}
-select option {
-  background-color: #1e1e1e !important;
-  color: #e0e0e0 !important;
-}
-label, legend {
-  color: #e0e0e0 !important;
-}
-
-/* 7. MENU */
-#menu-geral,
-.menu-vertical,
-.sidebar,
-.nav,
-nav {
-  background-color: #1a1a1a !important;
-  color: #e0e0e0 !important;
-  border-color: #333 !important;
-}
-#menu-geral li,
-.menu-vertical li,
-nav li {
+html.sigaa-dark-mode input.removeField,
+html.sigaa-dark-mode textarea.removeField {
   background-color: transparent !important;
-  border-color: #333 !important;
-  color: #e0e0e0 !important;
+  border-color: transparent !important;
 }
 
-/* 8. BANNERS LATERAIS - fundo branco para preservar imagens */
-#boxes-externos img,
-#links-externos img,
-.menu-externo img,
-#menu-externo img,
-.banner-lateral img,
-#banner-lateral img,
-aside img,
-.sidebar img,
-#sidebar img,
-.box-imagem img,
-[id*="externo"] img,
-[class*="externo"] img,
-[id*="banner"] img,
-[class*="banner"] img {
-  background-color: #fff !important;
-  padding: 4px !important;
+/* ═══════════════════════════════════════════════════════════════════════════
+   8. BOTÕES
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.sigaa-dark-mode input[type="button"],
+html.sigaa-dark-mode input[type="submit"],
+html.sigaa-dark-mode input[type="reset"],
+html.sigaa-dark-mode button,
+html.sigaa-dark-mode .btn,
+html.sigaa-dark-mode .botao,
+html.sigaa-dark-mode .btnCrudCadastrar,
+html.sigaa-dark-mode .btnCrudListar,
+html.sigaa-dark-mode .ybtn {
+  background-color: var(--sd-raised) !important;
+  background-image: none !important;   /* sprites de botão (btn-sprite.gif) */
+  color: var(--sd-link) !important;
+  border: 1px solid var(--sd-border-strong) !important;
+}
+html.sigaa-dark-mode input[type="button"]:hover,
+html.sigaa-dark-mode input[type="submit"]:hover,
+html.sigaa-dark-mode input[type="reset"]:hover,
+html.sigaa-dark-mode button:hover,
+html.sigaa-dark-mode .btn:hover,
+html.sigaa-dark-mode .botao:hover {
+  background-color: var(--sd-header) !important;
+  color: var(--sd-link-hover) !important;
+  border-color: var(--sd-link) !important;
 }
 
-/* 9. BOTOES */
-input[type="button"],
-input[type="submit"],
-input[type="reset"],
-button,
-.btn,
-.botao {
-  background-color: #2a2a2a !important;
-  color: #8ab4f8 !important;
-  border: 1px solid #444 !important;
-}
-input[type="button"]:hover,
-input[type="submit"]:hover,
-button:hover,
-.btn:hover,
-.botao:hover {
-  background-color: #333 !important;
-  color: #aecbfa !important;
+/* botões "primários" do SIGAA são azul-escuro: ficam azul médio */
+html.sigaa-dark-mode .btn-primary,
+html.sigaa-dark-mode .box-geral .btn-primary {
+  background-color: #1b3a63 !important;
+  color: #ffffff !important;
+  border-color: #2f5a8f !important;
 }
 
-/* 10. ALERTAS */
-.aviso, .erro, .sucesso, .info,
-.erroMensagem, .sucessoMensagem, .infoMensagem,
-[class*="erro"], [class*="error"] {
-  background-color: #1e1e1e !important;
-  color: #e0e0e0 !important;
-  border-color: #555 !important;
+/* input type=image (ex.: "Fórum de Cursos", "Avaliação Institucional") */
+html.sigaa-dark-mode input[type="image"] {
+  border: 1px solid var(--sd-border) !important;
+  border-radius: 3px;
+  padding: 2px;
 }
 
-/* 11. MODAL */
-.ui-dialog,
-.ui-dialog-titlebar,
-.ui-dialog-content,
-.ui-dialog-buttonpane {
-  background-color: #1e1e1e !important;
-  color: #e0e0e0 !important;
-  border-color: #333 !important;
+/* ═══════════════════════════════════════════════════════════════════════════
+   9. MENSAGENS / ALERTAS / PAINEL DE ERROS
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.sigaa-dark-mode #painel-erros,
+html.sigaa-dark-mode .aviso,
+html.sigaa-dark-mode .erro,
+html.sigaa-dark-mode .sucesso,
+html.sigaa-dark-mode .info,
+html.sigaa-dark-mode .erroMensagem,
+html.sigaa-dark-mode .sucessoMensagem,
+html.sigaa-dark-mode .infoMensagem,
+html.sigaa-dark-mode .msgPane,
+html.sigaa-dark-mode .alert {
+  background-color: var(--sd-surface) !important;
+  background-image: none !important;
+  color: var(--sd-text) !important;
+  border-color: var(--sd-border-strong) !important;
 }
 
-/* 12. IMAGENS: NAO INVERTER */
-img, svg, canvas {
+/* Os ícones de info/warning/erro são GIFs escuros: trocados por um marcador. */
+html.sigaa-dark-mode #painel-erros ul,
+html.sigaa-dark-mode #painel-erros ul.info,
+html.sigaa-dark-mode #painel-erros ul.warning,
+html.sigaa-dark-mode #painel-erros ul.erros {
+  background-image: none !important;
+}
+html.sigaa-dark-mode #painel-erros ul.info::before,
+html.sigaa-dark-mode #painel-erros ul.warning::before,
+html.sigaa-dark-mode #painel-erros ul.erros::before {
+  content: "●";
+  float: left;
+  margin-left: -20px;
+  font-size: 1.4em;
+  line-height: 1;
+}
+html.sigaa-dark-mode #painel-erros ul.info::before    { color: var(--sd-blue); }
+html.sigaa-dark-mode #painel-erros ul.warning::before { color: var(--sd-amber); }
+html.sigaa-dark-mode #painel-erros ul.erros::before   { color: var(--sd-red); }
+
+html.sigaa-dark-mode #painel-erros ul.info li,
+html.sigaa-dark-mode #painel-erros ul.sucesso li { color: var(--sd-green) !important; }
+html.sigaa-dark-mode #painel-erros ul.warning li { color: var(--sd-amber) !important; }
+html.sigaa-dark-mode #painel-erros ul.erros li,
+html.sigaa-dark-mode ul.erros li,
+html.sigaa-dark-mode p.empty-listing,
+html.sigaa-dark-mode .erro { color: var(--sd-red) !important; }
+html.sigaa-dark-mode span.destaque { color: var(--sd-text-dim) !important; }
+
+/* alertas de bootstrap usados em telas de matrícula */
+html.sigaa-dark-mode .alert-success { background-color: #16281a !important; color: var(--sd-green) !important; }
+html.sigaa-dark-mode .alert-info    { background-color: #14222b !important; color: var(--sd-blue)  !important; }
+html.sigaa-dark-mode .alert-warning { background-color: #2b2313 !important; color: var(--sd-amber) !important; }
+html.sigaa-dark-mode .alert-danger  { background-color: #2b1616 !important; color: var(--sd-red)   !important; }
+
+/* tooltips do SIGAA (.popUp / .tt) são amarelos com texto escuro */
+html.sigaa-dark-mode .popUp,
+html.sigaa-dark-mode .tt {
+  background-color: #332c14 !important;
+  color: #ffe9a8 !important;
+  border-color: #6b5a1e !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   10. MODAIS E DIÁLOGOS (jQuery UI / YUI-Ext / RichFaces)
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.sigaa-dark-mode .ui-dialog,
+html.sigaa-dark-mode .ui-dialog-titlebar,
+html.sigaa-dark-mode .ui-dialog-title,
+html.sigaa-dark-mode .ui-dialog-content,
+html.sigaa-dark-mode .ui-dialog-buttonpane,
+html.sigaa-dark-mode .ui-widget,
+html.sigaa-dark-mode .ui-widget-content,
+html.sigaa-dark-mode .ui-widget-header,
+html.sigaa-dark-mode .ui-corner-all,
+html.sigaa-dark-mode .rich-modalpanel,
+html.sigaa-dark-mode .rich-mpnl-panel,
+html.sigaa-dark-mode .rich-mpnl-shadow,
+html.sigaa-dark-mode #mascara,
+html.sigaa-dark-mode .mask,
+html.sigaa-dark-mode .ydlg-mask,
+html.sigaa-dark-mode .ydlg,
+html.sigaa-dark-mode .ydlg-hd,
+html.sigaa-dark-mode .ydlg-bd,
+html.sigaa-dark-mode .ydlg-dlg-body,
+html.sigaa-dark-mode .ydlg-ft,
+html.sigaa-dark-mode .yui-ext-mask,
+html.sigaa-dark-mode #painel-mensagem-envio,
+html.sigaa-dark-mode #painel-mensagem-envio_c,
+html.sigaa-dark-mode #painel-mensagem-envio_h,
+html.sigaa-dark-mode #painel-mensagem-envio_mask {
+  background-color: var(--sd-surface) !important;
+  background-image: none !important;
+  color: var(--sd-text) !important;
+  border-color: var(--sd-border-strong) !important;
+}
+
+/* máscaras de fundo ficam escuras em vez de cinza-claro */
+html.sigaa-dark-mode .mask,
+html.sigaa-dark-mode .ydlg-mask,
+html.sigaa-dark-mode .yui-ext-mask,
+html.sigaa-dark-mode #mascara,
+html.sigaa-dark-mode #painel-mensagem-envio_mask {
+  background-color: #000000 !important;
+}
+
+/* abas (rich-tab / yui-ext) */
+html.sigaa-dark-mode .rich-tab-header,
+html.sigaa-dark-mode .rich-tab-label,
+html.sigaa-dark-mode .rich-tab-active,
+html.sigaa-dark-mode .rich-tab-inactive,
+html.sigaa-dark-mode .ytab-strip,
+html.sigaa-dark-mode .ytab-strip .ytab-right,
+html.sigaa-dark-mode .ytab-strip .ytab-left,
+html.sigaa-dark-mode .ytab-strip .ytab-inner {
+  background-color: var(--sd-raised) !important;
+  background-image: none !important;
+  color: var(--sd-text) !important;
+  border-color: var(--sd-border) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   11. ÍCONES, IMAGENS E LOGOS
+   Nenhuma imagem é invertida por padrão (fotos continuam naturais).
+   Apenas os elementos que são APENAS ícone/logo escuro sobre transparente.
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.sigaa-dark-mode img,
+html.sigaa-dark-mode svg,
+html.sigaa-dark-mode canvas,
+html.sigaa-dark-mode video {
   filter: none !important;
 }
 
-/* 13. INLINE WHITES */
-[style*="background-color:#fff"],
-[style*="background-color: #fff"],
-[style*="background-color:white"],
-[style*="background-color: white"],
-[style*="background:#fff"],
-[style*="background: #fff"],
-[style*="background:white"],
-[style*="background: white"] {
-  background-color: #1e1e1e !important;
+/* logos do cabeçalho dos relatórios (PNGs escuros com transparência) */
+html.sigaa-dark-mode #relatorio-cabecalho img,
+html.sigaa-dark-mode #ufrn img,
+html.sigaa-dark-mode #sinfo img {
+  filter: invert(1) hue-rotate(180deg) brightness(1.25) contrast(1.05) !important;
 }
-[style*="color:#000"],
-[style*="color: #000"],
-[style*="color:black"],
-[style*="color: black"],
-[style*="color:#333"],
-[style*="color: #333"] {
-  color: #e0e0e0 !important;
+html.sigaa-dark-mode img[src*="logoSGI"],
+html.sigaa-dark-mode img[src*="logoCEFETMG"],
+html.sigaa-dark-mode img[src*="logoSIGAA"] {
+  filter: invert(1) hue-rotate(180deg) brightness(1.25) contrast(1.05) !important;
+}
+
+/* sprites de ícone do jQuery UI / PrimeFaces (botões "Trocar de Turma",
+   "Imprimir", setinhas dos painéis). São sprites escuros: só inverter.
+   NUNCA mexer no background-image daqui — removê-lo apaga o ícone. */
+html.sigaa-dark-mode .ui-icon {
+  filter: invert(1) hue-rotate(180deg) brightness(1.4) !important;
+}
+
+/* setas e handlers de redimensionamento */
+html.sigaa-dark-mode .yresizable-handle,
+html.sigaa-dark-mode .yresizable-overlay,
+html.sigaa-dark-mode .yresizable-proxy {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   12. USADO APENAS PELO POPUP DE MÓDULOS/PORTAIS
+   Mantidos claros de propósito: se fossem escuros os ícones desapareceriam.
+   O tratamento completo (inclusive dos descendentes) está na seção 16, no fim
+   do arquivo, para ganhar de qualquer regra anterior.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* 12.1 Foto de perfil: remove a moldura branca (#EFEFEF) */
+html.sigaa-dark-mode .fotoPerfil,
+html.sigaa-dark-mode #fotoPerfil,
+html.sigaa-dark-mode #perfil-docente .pessoal-docente img,
+html.sigaa-dark-mode #foto {
+  background-color: var(--sd-raised) !important;
+  border-color: var(--sd-border-strong) !important;
+}
+html.sigaa-dark-mode .btnExcluirFoto {
+  background-color: var(--sd-raised) !important;
+  color: var(--sd-link) !important;
+  border-color: var(--sd-border-strong) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   13. CAMPOS OBRIGATÓRIOS (o asterisco vermelho era um GIF escuro)
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.sigaa-dark-mode th.obrigatorio,
+html.sigaa-dark-mode td.obrigatorio,
+html.sigaa-dark-mode span.obrigatorio,
+html.sigaa-dark-mode div.obrigatorio,
+html.sigaa-dark-mode div.obrigatorioModalPanel {
+  background-image: none !important;
+  color: var(--sd-red) !important;
+}
+html.sigaa-dark-mode th.obrigatorio::after,
+html.sigaa-dark-mode td.obrigatorio::after,
+html.sigaa-dark-mode span.obrigatorio::after {
+  content: " *";
+  color: var(--sd-red);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   14. AJUSTES FINAIS
+   ═══════════════════════════════════════════════════════════════════════════ */
+/* "bg-claro" do SIGAA usa !important — precisa de !important também */
+html.sigaa-dark-mode .bg-claro,
+html.sigaa-dark-mode td.selecionado,
+html.sigaa-dark-mode .caixaCinza,
+html.sigaa-dark-mode .caixaCinzaMedio,
+html.sigaa-dark-mode .caixaCinzaEscura {
+  background-color: var(--sd-raised) !important;
+  color: var(--sd-text) !important;
+}
+
+/* texto que ficava escuro sobre escuro */
+html.sigaa-dark-mode span.data,
+html.sigaa-dark-mode span.descricao-campo,
+html.sigaa-dark-mode span.descricaoCampo,
+html.sigaa-dark-mode span.texto-ajuda,
+html.sigaa-dark-mode p.observacao span,
+html.sigaa-dark-mode fieldset legend,
+html.sigaa-dark-mode .rich-pmenu-item-label a,
+html.sigaa-dark-mode p.instrucoes,
+html.sigaa-dark-mode #relatorio h2,
+html.sigaa-dark-mode #relatorio #parametrosRelatorio th,
+html.sigaa-dark-mode #relatorio #parametrosRelatorio td,
+html.sigaa-dark-mode #relatorio-rodape p,
+html.sigaa-dark-mode span.tooltip,
+html.sigaa-dark-mode tr.inativo td,
+html.sigaa-dark-mode span.destaque,
+html.sigaa-dark-mode div.inativa,
+html.sigaa-dark-mode .linhaEsq span,
+html.sigaa-dark-mode .descricaoOperacao {
+  color: var(--sd-text) !important;
+}
+html.sigaa-dark-mode p.observacao span strong { color: var(--sd-amber) !important; }
+
+/* barra de cookies */
+html.sigaa-dark-mode #cookie-bar,
+html.sigaa-dark-mode .cookie-bar,
+html.sigaa-dark-mode #st-cookie-bar,
+html.sigaa-dark-mode .st-cookie-bar,
+html.sigaa-dark-mode #cookieConsent,
+html.sigaa-dark-mode .cookie-consent {
+  background-color: var(--sd-header) !important;
+  color: var(--sd-text) !important;
+  border-color: var(--sd-border) !important;
+}
+html.sigaa-dark-mode #cookie-bar a,
+html.sigaa-dark-mode .cookie-bar a,
+html.sigaa-dark-mode #st-cookie-bar a {
+  color: var(--sd-link) !important;
+}
+
+/* barra do governo (imagens claras) */
+html.sigaa-dark-mode .barra_governo,
+html.sigaa-dark-mode .barra_governo p.marca_mec,
+html.sigaa-dark-mode .barra_governo p.marca_brasil,
+html.sigaa-dark-mode .barra_governo #destaque_governo,
+html.sigaa-dark-mode .txtIndent {
+  background-color: var(--sd-raised) !important;
+  background-image: none !important;
+  color: var(--sd-text) !important;
+}
+
+/* menus de botões grandes (imagens claras de fundo) */
+html.sigaa-dark-mode div.menu-botoes li a,
+html.sigaa-dark-mode ul.listaOpcoes li,
+html.sigaa-dark-mode .menu-matricula ul li a,
+html.sigaa-dark-mode .box-geral .btn {
+  background-color: var(--sd-raised) !important;
+  background-image: none !important;
+  color: var(--sd-text) !important;
+  border-color: var(--sd-border-strong) !important;
+}
+html.sigaa-dark-mode div.menu-botoes li a h4,
+html.sigaa-dark-mode div.menu-botoes li a h5,
+html.sigaa-dark-mode div.menu-botoes li a p {
+  color: var(--sd-text) !important;
+}
+
+/* divisores decorativos */
+html.sigaa-dark-mode td.divLeft,
+html.sigaa-dark-mode td.divLeftEscuro,
+html.sigaa-dark-mode td.divRight,
+html.sigaa-dark-mode div.aba-botoes ul.menu-interno,
+html.sigaa-dark-mode div.aba-botoes li.botao-ativo,
+html.sigaa-dark-mode div.aba-botoes li.botao-on,
+html.sigaa-dark-mode div.aba-botoes li.botao-off {
+  background-color: var(--sd-raised) !important;
+  background-image: none !important;
+}
+
+/* seleção de texto */
+html.sigaa-dark-mode ::selection {
+  background-color: #2f5a8f;
+  color: #ffffff;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   15. AVISO ANTIGO DO NAVEGADOR (tela de login)
+   O SIGAA ainda mostra "Este sistema é melhor visualizado utilizando o Mozilla
+   Firefox" com um ícone JPG de fundo branco. É um aviso de 2006, não faz mais
+   sentido hoje, e o quadradinho branco estraga o tema escuro.
+   Se quiser manter o aviso, basta apagar (ou comentar) o bloco abaixo.
+   (Usa :has(), suportado em Chrome/Edge 105+.)
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.sigaa-dark-mode table:has(a > img[src*="firefox"]),
+html.sigaa-dark-mode p:has(a > img[src*="firefox"]) {
+  display: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   15.2 FUNDOS INLINE (style="background:url(...)")
+   Vários elementos do SIGAA têm a imagem de fundo escrita no atributo style,
+   e o CSS não consegue sobrescrever `background-image` inline sem !important
+   com seletor de atributo. Sem isso ficavam faixas com imagem clara
+   (ex.: `painel_bg.png` no topo do menu lateral e no botão de toggle).
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.sigaa-dark-mode [style*="background:url"],
+html.sigaa-dark-mode [style*="background: url"],
+html.sigaa-dark-mode [style*="background-image:url"],
+html.sigaa-dark-mode [style*="background-image: url"] {
+  background-image: none !important;
+  background-color: transparent !important;
+}
+
+/* fundo decorativo da página de turma (boneco/g setas "Turma Virtual"):
+   é uma imagem clara que não combina com o tema; some com ela e o texto
+   continua. Se quiser o desenho de volta, apague este bloco. */
+html.sigaa-dark-mode .intro-aval {
+  background-image: none !important;
+  background-color: transparent !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   16. MENUS — escuros, com os ícones invertidos
+
+   ATENÇÃO, dois detalhes que já deram bug e ficam registrados aqui:
+   1) Os itens do JSCookMenu são <td> (não <span>). A regra de zebra
+      `tr:nth-child(odd) td` é MAIS específica que `html.sigaa-dark-mode td` e
+      pintava os itens do menu de cinza. Por isso o 16.6 repete os <td> dos
+      menus no fim, com seletor mais específico.
+   2) Os <td> do menu têm border-color próprio no theme.css; precisa de
+      override explícito, senão aparece uma "aba" azul/bege em cada lado.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* 16.1 fundo escuro nos containers dos menus */
+html.sigaa-dark-mode #menu-dropdown,
+html.sigaa-dark-mode .ThemeOfficeMenu,
+html.sigaa-dark-mode .ThemeOfficeSubMenu,
+html.sigaa-dark-mode .ThemeOfficeSubMenuTable,
+html.sigaa-dark-mode .ThemeOfficeMainItem,
+html.sigaa-dark-mode .ThemeOfficeMenuItem,
+html.sigaa-dark-mode .ThemeOfficeMainFolder,
+html.sigaa-dark-mode .ThemeOfficeMenuFolder,
+html.sigaa-dark-mode .ThemeOfficeMenuSplit,
+html.sigaa-dark-mode #painel-usuario #menu-usuario li,
+html.sigaa-dark-mode #painel-usuario #menu-usuario li a,
+html.sigaa-dark-mode .rich-panelbar-header,
+html.sigaa-dark-mode .rich-stglpanel-header,
+html.sigaa-dark-mode [class*="itemMenuHeader"] {
+  background-color: var(--sd-raised) !important;
+  background-image: none !important;
+  color: var(--sd-text) !important;
+  border-color: var(--sd-border) !important;
+}
+
+/* 16.2 hover — só no elemento, NÃO nos descendentes (era isso que criava as
+      "abas" de cor diferente em cada pedacinho do item) */
+html.sigaa-dark-mode .ThemeOfficeMainItemHover,
+html.sigaa-dark-mode .ThemeOfficeMainItemActive,
+html.sigaa-dark-mode .ThemeOfficeMenuItemHover,
+html.sigaa-dark-mode .ThemeOfficeMenuItemActive,
+html.sigaa-dark-mode #painel-usuario #menu-usuario li a:hover {
+  background-color: var(--sd-header) !important;
+  color: var(--sd-link-hover) !important;
+  border-color: var(--sd-link) !important;
+}
+
+/* 16.3 ícones dos menus.
+      Medição real dos GIFs (via canvas): o `celular_icone.gif` tem 46% dos
+      pixels PRETOS puros (padrão de meio-tom de GIF de 2006). Sem filtro ele
+      desaparece no fundo escuro; com `invert()` puro esses 46% viram branco e
+      o ícone vira um bloco branco. `brightness(0.85)` baixa esse branco para
+      um tom médio: as formas e as cores continuam visíveis e não sobra área
+      branca. As fotos de perfil e os banners não são afetados (ficam fora
+      destes seletores). */
+html.sigaa-dark-mode .ThemeOfficeMenu img,
+html.sigaa-dark-mode .ThemeOfficeSubMenuTable img,
+html.sigaa-dark-mode [class*="ThemeOffice"] img,
+html.sigaa-dark-mode #painel-usuario #menu-usuario li img,
+html.sigaa-dark-mode #painel-usuario #menu-usuario li a img,
+html.sigaa-dark-mode .rich-panelbar-header img,
+html.sigaa-dark-mode .rich-stglpanel-header img,
+html.sigaa-dark-mode [class*="itemMenuHeader"] img {
+  filter: invert(1) hue-rotate(180deg) brightness(0.85) !important;
+}
+
+/* 16.4 popup de Módulos/Portais: mantidos claros.
+      Os ícones daqui são `background-image` — não dá para escurecer sem perder
+      o ícone. É um popup raro; se um dia precisar escuro, troque por SVG. */
+html.sigaa-dark-mode #modulos li,
+html.sigaa-dark-mode #modulos ul li,
+html.sigaa-dark-mode #portais li,
+html.sigaa-dark-mode #portais ul li,
+html.sigaa-dark-mode #menu_principal ul li {
+  background-color: var(--sd-light-bg) !important;
+  color: var(--sd-light-text) !important;
+  border-color: var(--sd-light-border) !important;
+}
+html.sigaa-dark-mode #modulos li *,
+html.sigaa-dark-mode #portais li *,
+html.sigaa-dark-mode #menu_principal ul li * {
+  background-color: transparent !important;
+  color: var(--sd-light-text) !important;
+}
+html.sigaa-dark-mode #modulos li a,
+html.sigaa-dark-mode #portais li a,
+html.sigaa-dark-mode #menu_principal li a {
+  color: var(--sd-light-text) !important;
+}
+
+/* 16.5 <td> dos menus — DEPOIS de tudo e com seletor MAIS específico que a
+      zebra `html.sigaa-dark-mode tr:nth-child(odd) td` (0,2,3). Por isso o
+      `tbody tr td` aqui: (0,2,4) ganha. Sem isso os itens do menu ficavam
+      cinza no lugar de transparentes. */
+html.sigaa-dark-mode .ThemeOfficeMenu tbody tr td,
+html.sigaa-dark-mode .ThemeOfficeSubMenuTable tbody tr td,
+html.sigaa-dark-mode .ThemeOfficeSubMenu tbody tr td,
+html.sigaa-dark-mode #painel-usuario #menu-usuario tbody tr td,
+html.sigaa-dark-mode .ThemeOfficeMenu tr td *,
+html.sigaa-dark-mode .ThemeOfficeSubMenuTable tr td *,
+html.sigaa-dark-mode #painel-usuario #menu-usuario tr td * {
+  background-color: transparent !important;
+  border-color: var(--sd-border) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   17. PÁGINA DA TURMA VIRTUAL (AVA)
+   O turma.css pinta quase tudo de branco/azul-claro com imagem de fundo
+   (painel_bg.png, sprites de botão, ícones dos cabeçalhos). Tratamentos:
+   • faixas de item (.itemMenu) → transparentes, texto flutuando;
+   • cabeçalhos com ícone (itemMenuHeader*) → filtro inverte só o ícone,
+     por isso a cor do texto é preta (o filtro a transforma em branco);
+   • gradientes e sprites claros → removidos.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* 17.1 itens do menu lateral: sem faixa atrás do texto */
+html.sigaa-dark-mode .itemMenu {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: var(--sd-text) !important;
+  border-color: var(--sd-border) !important;
+}
+html.sigaa-dark-mode .itemMenu:hover {
+  background-color: var(--sd-raised) !important;
+  color: var(--sd-link-hover) !important;
+}
+
+/* 17.2 cabeçalhos com ícone escuro: inverte o ícone sem inverter o fundo
+      (fundo é transparente, então inverter só afeta ícone + texto). */
+html.sigaa-dark-mode [class*="itemMenuHeader"] {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #000000 !important;
+  filter: invert(1) hue-rotate(180deg) !important;
+  border-color: var(--sd-border) !important;
+}
+
+/* 17.3 gradientes, sprites e fundos claros do AVA */
+html.sigaa-dark-mode .headerBloco,
+html.sigaa-dark-mode .botaoDireita,
+html.sigaa-dark-mode .rich-panelbar,
+html.sigaa-dark-mode .rich-pmenu-group,
+html.sigaa-dark-mode .dr-pmenu-top-group-div,
+html.sigaa-dark-mode .rich-pmenu-item:hover,
+html.sigaa-dark-mode .dr-pmenu-item:hover,
+html.sigaa-dark-mode .ui-layout-pane,
+html.sigaa-dark-mode .ui-layout-pane-center,
+html.sigaa-dark-mode .ui-layout-resizer,
+html.sigaa-dark-mode .ui-layout-toggler,
+html.sigaa-dark-mode .ui-layout-west,
+html.sigaa-dark-mode .ui-layout-east,
+html.sigaa-dark-mode .itemSelecionado,
+html.sigaa-dark-mode .odd,
+html.sigaa-dark-mode .even,
+html.sigaa-dark-mode #mascara,
+html.sigaa-dark-mode #dialog,
+html.sigaa-dark-mode .popUp,
+html.sigaa-dark-mode .selecionarAula {
+  background-color: var(--sd-surface) !important;
+  background-image: none !important;
+  color: var(--sd-text) !important;
+  border-color: var(--sd-border) !important;
+}
+html.sigaa-dark-mode .ui-layout-toggler {
+  background-color: var(--sd-border-strong) !important;
+}
+
+/* 17.4 containers do menu lateral: também transparentes, senão sobra um
+      bloco cinza atrás dos itens que já flutuam. */
+html.sigaa-dark-mode #baseLayout,
+html.sigaa-dark-mode #barraEsquerda,
+html.sigaa-dark-mode #barraDireita,
+html.sigaa-dark-mode #conteudo,
+html.sigaa-dark-mode .rich-panelbar,
+html.sigaa-dark-mode .rich-panelbar-interior,
+html.sigaa-dark-mode .rich-panelbar-exterior,
+html.sigaa-dark-mode .rich-panelbar-content,
+html.sigaa-dark-mode .rich-panelbar-content-exterior,
+html.sigaa-dark-mode .rich-stglpanel,
+html.sigaa-dark-mode .rich-stglpanel-body,
+html.sigaa-dark-mode .blocoDireita,
+html.sigaa-dark-mode .ui-layout-center,
+html.sigaa-dark-mode .ui-layout-container {
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+}
+
+/* 16.6 link "Voltar" do relatorio de notas: icone em background-image */
+html.sigaa-dark-mode a[style*="voltar"],
+html.sigaa-dark-mode #relatorio-rodape a,
+html.sigaa-dark-mode a:has(img[src*="voltar"]) {
+  background-image: none !important;
+  color: var(--sd-link) !important;
+}
+html.sigaa-dark-mode a[style*="voltar"] img,
+html.sigaa-dark-mode #relatorio-rodape a img {
+  filter: invert(1) hue-rotate(180deg) brightness(0.85) !important;
 }

@@ -155,18 +155,47 @@
       margin-bottom: 8px;
     }
 
-    .swatches {
+    .themes {
       display: flex;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .theme-btn {
+      flex: 1;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       gap: 6px;
     }
 
     .swatch {
-      width: 20px;
-      height: 20px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      border: 1px solid #333;
-      flex-shrink: 0;
+      border: 2px solid #3a3a3a;
+      transition: border-color .2s ease, transform .15s ease;
     }
+
+    .theme-btn:hover .swatch { transform: scale(1.15); }
+
+    .theme-btn[aria-pressed="true"] .swatch {
+      border-color: #90caf9;
+      box-shadow: 0 0 0 2px rgba(144,202,249,.25);
+    }
+
+    .theme-name {
+      font-size: 9px;
+      color: #777;
+      letter-spacing: .02em;
+      white-space: nowrap;
+    }
+
+    .theme-btn[aria-pressed="true"] .theme-name { color: #e0e0e0; }
 
     /* Footer */
     .footer {
@@ -217,22 +246,39 @@
     <div class="status on" id="statusBadge">● ATIVO — tema aplicado</div>
 
     <div class="palette">
-      <div class="palette-title">Paleta Deep Dark</div>
-      <div class="swatches">
-        <div class="swatch" style="background:#121212" title="#121212 — Fundo Base"></div>
-        <div class="swatch" style="background:#1e1e1e" title="#1e1e1e — Superfície"></div>
-        <div class="swatch" style="background:#1a2236" title="#1a2236 — Header"></div>
-        <div class="swatch" style="background:#90caf9" title="#90caf9 — Azul Primário"></div>
-        <div class="swatch" style="background:#80cbc4" title="#80cbc4 — Teal"></div>
-        <div class="swatch" style="background:#a5d6a7" title="#a5d6a7 — Verde"></div>
-        <div class="swatch" style="background:#ef9a9a" title="#ef9a9a — Vermelho"></div>
-        <div class="swatch" style="background:#e0e0e0" title="#e0e0e0 — Texto"></div>
+      <div class="palette-title">Tema</div>
+      <div class="themes" id="themes">
+        <button class="theme-btn" type="button" data-tema="deep-dark" aria-pressed="true"
+                title="Deep Dark — cinza neutro com toque azulado">
+          <span class="swatch" style="background:linear-gradient(135deg,#121212 45%,#8ab4f8 46%)"></span>
+          <span class="theme-name">Dark</span>
+        </button>
+        <button class="theme-btn" type="button" data-tema="roxo" aria-pressed="false"
+                title="Roxo — fundo arroxeado com links lilás">
+          <span class="swatch" style="background:linear-gradient(135deg,#14101c 45%,#c9a6ff 46%)"></span>
+          <span class="theme-name">Roxo</span>
+        </button>
+        <button class="theme-btn" type="button" data-tema="rosa" aria-pressed="false"
+                title="Rosa — fundo vinho com links rosa">
+          <span class="swatch" style="background:linear-gradient(135deg,#170f13 45%,#ff9ec4 46%)"></span>
+          <span class="theme-name">Rosa</span>
+        </button>
+        <button class="theme-btn" type="button" data-tema="verde" aria-pressed="false"
+                title="Verde — fundo verde-escuro com links menta">
+          <span class="swatch" style="background:linear-gradient(135deg,#0d1410 45%,#7ddba3 46%)"></span>
+          <span class="theme-name">Verde</span>
+        </button>
+        <button class="theme-btn" type="button" data-tema="vermelho" aria-pressed="false"
+                title="Vermelho — fundo marrom-avermelhado com links salmão">
+          <span class="swatch" style="background:linear-gradient(135deg,#170e0e 45%,#ff9e9e 46%)"></span>
+          <span class="theme-name">Vermelho</span>
+        </button>
       </div>
     </div>
   </div>
 
   <div class="footer">
-    <span>Recarregue a página ao alternar</span>
+    <span>Alterna na hora, sem recarregar</span>
     <span class="version">v1.0.0</span>
   </div>
 

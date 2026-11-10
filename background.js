@@ -1,9 +1,16 @@
 /*
  * background.js — Service Worker (MV3)
- * Gerencia estado global da extensão
  */
 
-chrome.runtime.onInstalled.addListener(() => {
-  // Ativar dark mode por padrão na instalação
-  chrome.storage.local.set({ sigaa_dark_enabled: true });
+/* Na primeira instalação, liga o modo escuro por padrão.
+   Em atualizações o valor existente é preservado (não sobrescreve a
+   preferência de quem desligou o tema). */
+chrome.runtime.onInstalled.addListener((details) => {
+  if (details.reason === 'install') {
+    chrome.storage.local.get(['sigaa_dark_enabled'], (result) => {
+      if (result.sigaa_dark_enabled === undefined) {
+        chrome.storage.local.set({ sigaa_dark_enabled: true });
+      }
+    });
+  }
 });

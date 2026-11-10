@@ -1,0 +1,15 @@
+# Sistema / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# Node (so se alguem for testar fora do navegador)
+node_modules/
+npm-debug.log*
+
+# Pacotes gerados
+*.zip
+*.crx
+*.pem
