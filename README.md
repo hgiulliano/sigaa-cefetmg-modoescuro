@@ -100,8 +100,11 @@ desligar o modo escuro **não** faz você perder o tema escolhido.
 | **Vermelho** | `#1e0b0b` | `#ff9e9e` | [ver](screenshots/portal_vermelho.png) |
 
 Cada tema é um bloco de variáveis CSS no começo do `style.css`. Como **todas** as
-regras do tema usam `var(--sd-*)`, criar um tema novo é só colar mais um bloco —
-veja o guia completo em [**`docs/CRIANDO-TEMAS.md`**](docs/CRIANDO-TEMAS.md).
+regras do tema usam `var(--sd-*)`.
+
+## 🎨 Criando seus próprios temas
+
+Veja o guia completo em [**`docs/CRIANDO-TEMAS.md`**](docs/CRIANDO-TEMAS.md).
 
 ---
 
