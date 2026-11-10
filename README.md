@@ -5,7 +5,7 @@
 **Tema escuro para o portal SIGAA do CEFET-MG.**
 Feito de aluno para aluno, pra poupar a vista nas madrugadas de estudo.
 
-[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-instalar-4285F4?logo=googlechrome&logoColor=white)](LINK_DA_LOJA)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-instalar-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/sigaa-dark-mode-%E2%80%94-cefet-m/aijldljnalegppefehpcgkbcfblahnod)
 ![Manifest](https://img.shields.io/badge/Manifest-V3-green)
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-orange)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -28,7 +28,7 @@ Feito de aluno para aluno, pra poupar a vista nas madrugadas de estudo.
 
 ### Opção 1: Chrome Web Store (recomendado)
 
-1. Acesse a [página da extensão na Chrome Web Store](LINK_DA_LOJA).
+1. Acesse a [página da extensão na Chrome Web Store](https://chromewebstore.google.com/detail/sigaa-dark-mode-%E2%80%94-cefet-m/aijldljnalegppefehpcgkbcfblahnod).
 2. Clique em **Usar no Chrome** (ou **Adicionar ao Chrome**).
 3. Confirme em **Adicionar extensão**.
 4. Acesse [sig.cefetmg.br/sigaa](https://sig.cefetmg.br/sigaa/) e pronto!
