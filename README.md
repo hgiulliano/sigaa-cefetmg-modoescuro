@@ -37,7 +37,6 @@ Feito de aluno para aluno, pra poupar a vista nas madrugadas de estudo.
 </table>
 
 📸 Todas as screenshots do portal, uma por tema, em [`screenshots/`](screenshots/) no tamanho **1280×800**. Dados pessoais estão cobertos.
-<br>O seletor de temas dentro do popup: [`screenshots/popup-temas.png`](screenshots/popup-temas.png)
 
 ---
 
@@ -245,6 +244,8 @@ Distribuído sob a licença [MIT](LICENSE).
 [⬇️ Instalar pela Chrome Web Store](https://chromewebstore.google.com/detail/sigaa-dark-mode-%E2%80%94-cefet-m/aijldljnalegppefehpcgkbcfblahnod)
 &nbsp;·&nbsp;
 [⭐ Dar uma estrela no GitHub](../../stargazers)
+
+---
 
 <br><br>
 
