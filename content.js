@@ -3,7 +3,14 @@
  * Coloca/remove a classe `sigaa-dark-mode` e o atributo `data-sd-tema` no
  * <html>. Todo o CSS do tema é escopado nessa classe (ver style.css), então é
  * assim que o toggle do popup liga/desliga o tema de verdade, sem recarregar.
+ *
+ * Funciona no Chrome E no Firefox.
  */
+
+/* `browser` só existe no Firefox (API baseada em Promise).
+   Se existir, usa ele; senão usa o `chrome` do Chrome.
+   As chamadas abaixo usam await, então funcionam nos dois. */
+const API = (typeof browser !== 'undefined' && browser.runtime) ? browser : chrome;
 
 const STORAGE_KEY   = 'sigaa_dark_enabled';
 const THEME_KEY     = 'sigaa_dark_tema';
@@ -29,21 +36,50 @@ function applyTema(tema) {
 applyTheme(true);
 
 /* Depois le a preferencia salva (padrao: ligado, tema deep-dark) */
-chrome.storage.local.get([STORAGE_KEY, THEME_KEY], (result) => {
-  applyTheme(result[STORAGE_KEY] !== false);
-  applyTema(result[THEME_KEY]);
-});
+(async () => {
+  try {
+    const result = await API.storage.local.get([STORAGE_KEY, THEME_KEY]);
+    applyTheme(result[STORAGE_KEY] !== false);
+    applyTema(result[THEME_KEY]);
+  } catch (e) {
+    /* se o storage falhar, mantem o padrao (ligado, deep-dark) */
+  }
+})();
 
 /* Mensagens do popup: liga/desliga e trocar de tema, na hora */
-chrome.runtime.onMessage.addListener((msg) => {
+API.runtime.onMessage.addListener((msg) => {
   if (!msg) return;
-  if (msg.type === 'TOGGLE_DARK') {
-    applyTheme(msg.enabled);
-  }
-  if (msg.type === 'SET_THEME') {
-    applyTema(msg.theme);
-  }
+  if (msg.type === 'TOGGLE_DARK') applyTheme(msg.enabled);
+  if (msg.type === 'SET_THEME') applyTema(msg.theme);
 });
+
+/* ── Ajustes que dependem de JS (seletores que o CSS nao alcanca) ─────────── */
+
+/* 1) Aviso antigo "use o Mozilla Firefox", na tela de login.
+      Feito em JS em vez de `:has()` porque `:has()` só existe no Firefox 121+
+      e no Chrome 105+; assim funciona até o Firefox 115 (ESR). */
+function hideLegacyFirefoxNotice() {
+  document.querySelectorAll('table').forEach((table) => {
+    const hasFirefoxIcon = table.querySelector('img[src*="firefox"]');
+    if (hasFirefoxIcon && /Mozilla Firefox/i.test(table.textContent || '')) {
+      table.style.setProperty('display', 'none', 'important');
+    }
+  });
+}
+
+/* 2) Link "Voltar" do relatorio de notas (icone em background-image). */
+function fixVoltarLink() {
+  document.querySelectorAll('a[style*="voltar"]').forEach((a) => {
+    a.style.setProperty('background-image', 'none', 'important');
+  });
+}
+
+function runJsFixes() {
+  hideLegacyFirefoxNotice();
+  fixVoltarLink();
+}
+
+runJsFixes();
 
 /* ── Conteudo dinamico (JSF/RichFaces/Ajax) ──────────────────────────────────
    O JSF as vezes escreve style="background-color: white" direto no elemento.
@@ -95,7 +131,9 @@ const observer = new MutationObserver((mutations) => {
   if (!document.documentElement.classList.contains(CLASS_DARK)) return;
   for (const m of mutations) {
     for (const node of m.addedNodes) {
-      if (node.nodeType === 1) neutralize(node);
+      if (node.nodeType !== 1) continue;
+      neutralize(node);
+      runJsFixes();
     }
   }
 });

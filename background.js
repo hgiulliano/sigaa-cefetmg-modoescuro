@@ -1,16 +1,18 @@
 /*
  * background.js — Service Worker (MV3)
+ * Ativa o modo escuro por padrao na primeira instalacao, sem sobrescrever
+ * a preferencia de quem ja o desligou.
+ * Funciona no Chrome e no Firefox.
  */
 
-/* Na primeira instalação, liga o modo escuro por padrão.
-   Em atualizações o valor existente é preservado (não sobrescreve a
-   preferência de quem desligou o tema). */
-chrome.runtime.onInstalled.addListener((details) => {
-  if (details.reason === 'install') {
-    chrome.storage.local.get(['sigaa_dark_enabled'], (result) => {
-      if (result.sigaa_dark_enabled === undefined) {
-        chrome.storage.local.set({ sigaa_dark_enabled: true });
-      }
-    });
-  }
+const API = (typeof browser !== 'undefined' && browser.runtime) ? browser : chrome;
+
+API.runtime.onInstalled.addListener(async (details) => {
+  if (details.reason !== 'install') return;
+  try {
+    const result = await API.storage.local.get(['sigaa_dark_enabled']);
+    if (result.sigaa_dark_enabled === undefined) {
+      await API.storage.local.set({ sigaa_dark_enabled: true });
+    }
+  } catch (_) { /* storage indisponivel: o content.js assume o padrao */ }
 });

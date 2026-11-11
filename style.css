@@ -729,13 +729,9 @@ html.sigaa-dark-mode ::selection {
    O SIGAA ainda mostra "Este sistema é melhor visualizado utilizando o Mozilla
    Firefox" com um ícone JPG de fundo branco. É um aviso de 2006, não faz mais
    sentido hoje, e o quadradinho branco estraga o tema escuro.
-   Se quiser manter o aviso, basta apagar (ou comentar) o bloco abaixo.
-   (Usa :has(), suportado em Chrome/Edge 105+.)
+   A regra fica no content.js (hideLegacyFirefoxNotice) porque `:has()` só
+   existe no Chrome 105+ / Firefox 121+ — em JS funciona até o Firefox 115.
    ═══════════════════════════════════════════════════════════════════════════ */
-html.sigaa-dark-mode table:has(a > img[src*="firefox"]),
-html.sigaa-dark-mode p:has(a > img[src*="firefox"]) {
-  display: none !important;
-}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    15.2 FUNDOS INLINE (style="background:url(...)")
@@ -948,8 +944,7 @@ html.sigaa-dark-mode .ui-layout-container {
 
 /* 16.6 link "Voltar" do relatorio de notas: icone em background-image */
 html.sigaa-dark-mode a[style*="voltar"],
-html.sigaa-dark-mode #relatorio-rodape a,
-html.sigaa-dark-mode a:has(img[src*="voltar"]) {
+html.sigaa-dark-mode #relatorio-rodape a {
   background-image: none !important;
   color: var(--sd-link) !important;
 }

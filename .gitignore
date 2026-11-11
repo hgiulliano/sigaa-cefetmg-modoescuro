@@ -13,3 +13,7 @@ npm-debug.log*
 *.zip
 *.crx
 *.pem
+
+# Copias locais / pacotes dentro de screenshots (nao versionar)
+screenshots/*/
+screenshots/*.zip

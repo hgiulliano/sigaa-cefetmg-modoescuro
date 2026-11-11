@@ -37,6 +37,7 @@ Feito de aluno para aluno, pra poupar a vista nas madrugadas de estudo.
 </table>
 
 📸 Todas as screenshots do portal, uma por tema, em [`screenshots/`](screenshots/) no tamanho **1280×800**. Dados pessoais estão cobertos.
+<br>O seletor de temas dentro do popup: [`screenshots/popup-temas.png`](screenshots/popup-temas.png)
 
 ---
 
@@ -77,6 +78,7 @@ Clique no ícone de quebra-cabeça ao lado da barra de endereço e depois no alf
 
 ---
 
+
 ## Como usar
 
 - **Ligar/desligar:** clique no ícone da extensão e use o interruptor. A troca é
@@ -87,6 +89,58 @@ Clique no ícone de quebra-cabeça ao lado da barra de endereço e depois no alf
 As duas preferências são guardadas separadamente (`chrome.storage`), então
 desligar o modo escuro **não** faz você perder o tema escolhido.
 
+---
+
+## Firefox
+
+A extensão **funciona no Firefox também**, com o mesmo ZIP. O que muda por
+baixo é mínimo, porque o código já é escrito para os dois:
+
+| | Chrome | Firefox |
+|---|---|---|
+| Manifest | V3 | V3 (Firefox 115+) |
+| API | `chrome.*` | `browser.*` quando existir, `chrome.*` como *alias* |
+| Storage / tabs | callbacks ou promises | promises |
+
+Para rodar nos dois, os três JS começam com:
+
+```js
+const API = (typeof browser !== 'undefined' && browser.runtime) ? browser : chrome;
+```
+
+e usam `await API.storage.local.get(...)`. No Chrome o `browser` não existe e cai
+no `chrome`, que em MV3 também aceita promises — então uma única base de código
+serve para os dois.
+
+### O que teve que mudar no `manifest.json`
+
+```json
+"browser_specific_settings": {
+  "gecko": {
+    "id": "sigaa-dark-mode@hgiulliano.com.br",
+    "strict_min_version": "115.0"
+  }
+}
+```
+
+- **`id` é obrigatório no Firefox** — sem ele a extensão é tratada como
+  temporária e esquece a configuração ao reiniciar o navegador.
+- **`strict_min_version: "115.0"`** é o ESR do Firefox de 2023.
+
+Dois `:has()` que eu tinha usado no CSS foram movidos para o `content.js`, porque
+`:has()` só existe no Firefox 121+ (e no Chrome 105+). Em JS, funcionam até o
+115 — é o caso do aviso antigo "use o Mozilla Firefox", na tela de login.
+
+### Como testar no Firefox
+
+1. Abra `about:debugging#/runtime/this-firefox`.
+2. Clique em **Carregar extensão temporária…**.
+3. Selecione o `manifest.json` dentro da pasta `sigaa-cefetmg-modoescuro-main/`.
+4. Acesse o SIGAA.
+
+> Extensão temporária é removida ao fechar o Firefox. Para ficar fixa, publique
+> na [AMO](https://addons.mozilla.org/developers/) — o processo aceita o mesmo
+> ZIP da Chrome Web Store.
 ---
 
 ## Temas
@@ -100,11 +154,8 @@ desligar o modo escuro **não** faz você perder o tema escolhido.
 | **Vermelho** | `#1e0b0b` | `#ff9e9e` | [ver](screenshots/portal_vermelho.png) |
 
 Cada tema é um bloco de variáveis CSS no começo do `style.css`. Como **todas** as
-regras do tema usam `var(--sd-*)`.
-
-## 🎨 Criando seus próprios temas
-
-Veja o guia completo em [**`docs/CRIANDO-TEMAS.md`**](docs/CRIANDO-TEMAS.md).
+regras do tema usam `var(--sd-*)`, criar um tema novo é só colar mais um bloco —
+veja o guia completo em [**`docs/CRIANDO-TEMAS.md`**](docs/CRIANDO-TEMAS.md).
 
 ---
 
@@ -197,6 +248,11 @@ O `content.js` apenas coloca ou remove essa classe do `<html>`. Sem a classe a
 página fica idêntica ao SIGAA original; com a classe, o tema escuro é aplicado —
 e a troca surte efeito na hora, sem recarregar.
 
+**Compatibilidade Chrome/Firefox:** toda chamada de API passa por
+`const API = (typeof browser !== 'undefined' && browser.runtime) ? browser : chrome`
+e usa `await`. No Chrome o `browser` não existe e cai no `chrome`, que em MV3
+também é baseado em promessas — por isso um único código serve para os dois.
+
 **Como o tema funciona:** cada paleta é um bloco
 `html.sigaa-dark-mode[data-sd-tema="roxo"] { --sd-…: … }` no topo do CSS. O
 `content.js` bota esse atributo no `<html>`. Como toggle e tema são mecanismos
@@ -248,7 +304,7 @@ Distribuído sob a licença [MIT](LICENSE).
 &nbsp;·&nbsp;
 [⭐ Dar uma estrela no GitHub](../../stargazers)
 
----
+<br><br>
 
 Feito por [@hgiulliano](https://github.com/hgiulliano)
 
