@@ -2,6 +2,12 @@
  * popup.js — SIGAA Dark Mode
  * Controla o toggle de liga/desligar, a escolha de tema, e persiste ambos
  * via chrome.storage. Funciona no Chrome e no Firefox.
+ *
+ * O popup NÃO avisa as abas: ele só grava a preferência. O content.js escuta
+ * `storage.onChanged` e aplica na hora em cada aba. Por isso não precisamos de
+ * `tabs.query` nem `tabs.sendMessage` — que são APIs de coleta de dados e
+ * exigiriam permissões extras (a AMO passou a exigir
+ * `data_collection_permissions` desde 2025).
  */
 
 /* `browser` so existe no Firefox (API baseada em Promise). */
@@ -10,10 +16,6 @@ const API = (typeof browser !== 'undefined' && browser.runtime) ? browser : chro
 const STORAGE_KEY   = 'sigaa_dark_enabled';
 const THEME_KEY     = 'sigaa_dark_tema';
 const DEFAULT_THEME = 'deep-dark';
-const URL_PATTERNS  = [
-  'https://sig.cefetmg.br/sigaa/*',
-  'https://sigaa.cefetmg.br/*'
-];
 
 const toggle    = document.getElementById('darkToggle');
 const badge     = document.getElementById('statusBadge');
@@ -38,16 +40,6 @@ function markTheme(theme) {
   });
 }
 
-/* ── manda uma mensagem para todas as abas do SIGAA abertas ───────────────── */
-async function pushToTabs(payload) {
-  try {
-    const tabs = await API.tabs.query({ url: URL_PATTERNS });
-    for (const tab of tabs) {
-      try { await API.tabs.sendMessage(tab.id, payload); } catch (_) { /* aba sem content script */ }
-    }
-  } catch (_) { /* sem abas compativeis */ }
-}
-
 /* ── estado atual ─────────────────────────────────────────────────────────── */
 (async () => {
   try {
@@ -63,7 +55,6 @@ toggle.addEventListener('change', async () => {
   const enabled = toggle.checked;
   try { await API.storage.local.set({ [STORAGE_KEY]: enabled }); } catch (_) {}
   updateBadge(enabled);
-  pushToTabs({ type: 'TOGGLE_DARK', enabled });
 });
 
 /* ── escolha de tema ──────────────────────────────────────────────────────── */
@@ -72,6 +63,5 @@ themeBtns.forEach((btn) => {
     const theme = btn.dataset.tema;
     try { await API.storage.local.set({ [THEME_KEY]: theme }); } catch (_) {}
     markTheme(theme);
-    pushToTabs({ type: 'SET_THEME', theme });
   });
 });

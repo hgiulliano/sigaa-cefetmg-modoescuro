@@ -5,6 +5,12 @@
  * assim que o toggle do popup liga/desliga o tema de verdade, sem recarregar.
  *
  * Funciona no Chrome E no Firefox.
+ *
+ * Sincronização sem `tabs.query`: o popup só grava a preferência no
+ * storage, e este script escuta `storage.onChanged` e reage na hora em cada
+ * aba aberta. É o que permite não declarar permissão nenhuma de "tabs" —
+ * obrigatória para a Chrome Store e para a AMO, que passou a exigir
+ * `data_collection_permissions` desde 2025.
  */
 
 /* `browser` só existe no Firefox (API baseada em Promise).
@@ -46,11 +52,18 @@ applyTheme(true);
   }
 })();
 
-/* Mensagens do popup: liga/desliga e trocar de tema, na hora */
-API.runtime.onMessage.addListener((msg) => {
-  if (!msg) return;
-  if (msg.type === 'TOGGLE_DARK') applyTheme(msg.enabled);
-  if (msg.type === 'SET_THEME') applyTema(msg.theme);
+/* ── Reage a mudancas feitas pelo popup ─────────────────────────────────────
+   Quando o popup troca o toggle ou o tema, ele só faz storage.local.set().
+   Este listener roda em TODA aba do SIGAA e aplica na hora — sem precisar de
+   tabs.query nem tabs.sendMessage (que exigiriam permissões de "tabs"). */
+API.storage.onChanged.addListener((changes, area) => {
+  if (area !== 'local') return;
+  if (Object.prototype.hasOwnProperty.call(changes, STORAGE_KEY)) {
+    applyTheme(changes[STORAGE_KEY].newValue !== false);
+  }
+  if (Object.prototype.hasOwnProperty.call(changes, THEME_KEY)) {
+    applyTema(changes[THEME_KEY].newValue);
+  }
 });
 
 /* ── Ajustes que dependem de JS (seletores que o CSS nao alcanca) ─────────── */

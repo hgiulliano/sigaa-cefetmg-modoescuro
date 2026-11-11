@@ -6,6 +6,7 @@
 Feito de aluno para aluno, pra poupar a vista nas madrugadas de estudo.
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-instalar-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/sigaa-dark-mode-%E2%80%94-cefet-m/aijldljnalegppefehpcgkbcfblahnod)
+[![Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-instalar-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/pt-BR/firefox/addon/sigaa-dark-mode-cefet-mg/)
 [![Manifest](https://img.shields.io/badge/Manifest-V3-green)](https://chromewebstore.google.com/detail/sigaa-dark-mode-%E2%80%94-cefet-m/aijldljnalegppefehpcgkbcfblahnod)
 ![Status](https://img.shields.io/badge/status-est%C3%A1vel-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -43,7 +44,7 @@ Feito de aluno para aluno, pra poupar a vista nas madrugadas de estudo.
 
 ## Instalação
 
-### Opção 1: Chrome Web Store (recomendado)
+### Opção 1: Chrome Web Store
 
 1. Acesse a [página da extensão na Chrome Web Store](https://chromewebstore.google.com/detail/sigaa-dark-mode-%E2%80%94-cefet-m/aijldljnalegppefehpcgkbcfblahnod).
 2. Clique em **Usar no Chrome** (ou **Adicionar ao Chrome**).
@@ -52,14 +53,33 @@ Feito de aluno para aluno, pra poupar a vista nas madrugadas de estudo.
 
 As atualizações chegam automaticamente.
 
-### Opção 2: Instalação manual (modo desenvolvedor)
+### Opção 2: Firefox Add-ons
+
+1. Acesse a [página da extensão no Firefox Add-ons](https://addons.mozilla.org/pt-BR/firefox/addon/sigaa-dark-mode-cefet-mg/).
+2. Clique em **Adicionar ao Firefox** e confirme.
+3. Acesse o SIGAA e pronto!
+
+As atualizações também chegam automaticamente.
+
+Quer testar antes de publicar, ou testar uma versão que ainda não chegou à loja?
+
+1. Abra `about:debugging#/runtime/this-firefox`.
+2. Clique em **Carregar extensão temporária…**.
+3. Selecione o `manifest.json` dentro da pasta `sigaa-cefetmg-modoescuro-main/`.
+4. Acesse o SIGAA.
+
+> [!NOTE]
+> A extensão temporária é removida ao fechar o Firefox. Ela funciona a partir do
+> Firefox 115 (ESR) e usa o mesmo ZIP da Chrome Web Store.
+
+### Opção 3: Instalação manual (modo desenvolvedor)
 
 Útil se você quiser testar o código ou uma versão mais recente que ainda não chegou à loja.
 
 1. Nesta página, clique no botão verde **Code** e depois em **Download ZIP**.
 2. Extraia o `.zip` em uma pasta fixa do seu computador.
-3. Abra o Chrome e acesse `chrome://extensions/`.
-4. Ative o **Modo do desenvolvedor** (canto superior direito).
+3. Abra o Chrome (`chrome://extensions/`) ou o Firefox (`about:debugging`).
+4. Ative o **Modo do desenvolvedor** (canto superior direito), no Chrome.
 5. Clique em **Carregar sem compactação** (*Load unpacked*).
 6. Selecione a pasta `sigaa-cefetmg-modoescuro-main/`.
 7. Acesse [sig.cefetmg.br/sigaa](https://sig.cefetmg.br/sigaa/) e pronto!
@@ -68,11 +88,13 @@ As atualizações chegam automaticamente.
 > Selecione a pasta que contém o arquivo `manifest.json` **diretamente dentro dela**. Em alguns casos o Windows cria uma pasta dentro de outra com o mesmo nome ao extrair; se der erro de "arquivo de manifesto ausente", é isso.
 
 > [!WARNING]
-> Na instalação manual, não apague nem mova a pasta depois de instalar, senão o Chrome desativa a extensão. Também não há atualização automática: para atualizar, baixe o ZIP de novo, substitua os arquivos da pasta e clique no botão de recarregar da extensão em `chrome://extensions/`.
-
-**Link direto:** <https://chromewebstore.google.com/detail/sigaa-dark-mode-%E2%80%94-cefet-m/aijldljnalegppefehpcgkbcfblahnod>
+> Na instalação manual, não apague nem mova a pasta depois de instalar, senão o navegador desativa a extensão. Também não há atualização automática: para atualizar, baixe o ZIP de novo, substitua os arquivos da pasta e clique no botão de recarregar.
 
 ### Dica: fixe a extensão na barra
+
+Clique no ícone de quebra-cabeça ao lado da barra de endereço e depois no alfinete ao lado de **SIGAA Dark Mode**. Assim o botão de ligar/desligar e a escolha de tema ficam sempre à mão.
+
+---### Dica: fixe a extensão na barra
 
 Clique no ícone de quebra-cabeça ao lado da barra de endereço e depois no alfinete ao lado de **SIGAA Dark Mode**. Assim o botão de ligar/desligar e a escolha de tema ficam sempre à mão.
 
@@ -89,61 +111,6 @@ Clique no ícone de quebra-cabeça ao lado da barra de endereço e depois no alf
 As duas preferências são guardadas separadamente (`chrome.storage`), então
 desligar o modo escuro **não** faz você perder o tema escolhido.
 
----
-
-## Firefox
-
-A extensão **funciona no Firefox também**, com o mesmo ZIP. O que muda por
-baixo é mínimo, porque o código já é escrito para os dois:
-
-| | Chrome | Firefox |
-|---|---|---|
-| Manifest | V3 | V3 (Firefox 115+) |
-| API | `chrome.*` | `browser.*` quando existir, `chrome.*` como *alias* |
-| Storage / tabs | callbacks ou promises | promises |
-
-Para rodar nos dois, os três JS começam com:
-
-```js
-const API = (typeof browser !== 'undefined' && browser.runtime) ? browser : chrome;
-```
-
-e usam `await API.storage.local.get(...)`. No Chrome o `browser` não existe e cai
-no `chrome`, que em MV3 também aceita promises — então uma única base de código
-serve para os dois.
-
-### O que teve que mudar no `manifest.json`
-
-```json
-"browser_specific_settings": {
-  "gecko": {
-    "id": "sigaa-dark-mode@hgiulliano.com.br",
-    "strict_min_version": "115.0"
-  }
-}
-```
-
-- **`id` é obrigatório no Firefox** — sem ele a extensão é tratada como
-  temporária e esquece a configuração ao reiniciar o navegador.
-- **`strict_min_version: "115.0"`** é o ESR do Firefox de 2023.
-- **Sem `background`.** Um `service_worker` só roda no Firefox 121+, então a
-  extensão não declara nenhum: o `content.js` já aplica o tema padrão (ligado)
-  antes de ler o storage, o que torna o service worker redundante.
-
-Dois `:has()` que eu tinha usado no CSS foram movidos para o `content.js`, porque
-`:has()` só existe no Firefox 121+ (e no Chrome 105+). Em JS, funcionam até o
-115 — é o caso do aviso antigo "use o Mozilla Firefox", na tela de login.
-
-### Como testar no Firefox
-
-1. Abra `about:debugging#/runtime/this-firefox`.
-2. Clique em **Carregar extensão temporária…**.
-3. Selecione o `manifest.json` dentro da pasta `sigaa-cefetmg-modoescuro-main/`.
-4. Acesse o SIGAA.
-
-> Extensão temporária é removida ao fechar o Firefox. Para ficar fixa, publique
-> na [AMO](https://addons.mozilla.org/developers/) — o processo aceita o mesmo
-> ZIP da Chrome Web Store.
 ---
 
 ## Temas
@@ -218,13 +185,13 @@ localmente no seu navegador e é aberto para você conferir. Leia a
 
 | Permissão | Para que serve |
 |---|---|
-| `storage` | Salvar a preferência de liga/desliga e o tema escolhido |
-| `sig.cefetmg.br/sigaa/*` | Aplicar o tema **somente** nas páginas do SIGAA, e permitir que o popup avise as abas abertas sobre a troca de tema |
+| `storage` | Salvar a preferência de liga/desliga e o tema escolhido, e sincronizar as abas abertas |
 
-> **São só essas duas.** A extensão não pede `tabs`, `scripting`, `activeTab`,
-> `history`, `bookmarks`, `cookies` nem acesso a nenhum outro site. Sem
-> permissão de host, não é possível avisar as abas abertas de que o tema mudou —
-> e sem `storage` a escolha não sobreviveria a um F5.
+> **É só essa, e ela é local.** A extensão não pede `host_permissions` (a injeção
+> nas páginas do SIGAA é feita pelo `content_scripts`, que não precisa de
+> permissão de host), nem `tabs`, `scripting`, `activeTab`, `history`,
+> `bookmarks` ou `cookies`. Nada sai do seu navegador: o `storage` é local, e a
+> preferência não é enviada para lugar nenhum.
 
 ---
 
@@ -254,6 +221,36 @@ e a troca surte efeito na hora, sem recarregar.
 `const API = (typeof browser !== 'undefined' && browser.runtime) ? browser : chrome`
 e usa `await`. No Chrome o `browser` não existe e cai no `chrome`, que em MV3
 também é baseado em promessas — por isso um único código serve para os dois.
+
+**Sincronização sem `tabs.query`:** quando você troca o tema no popup, ele só
+grava a preferência no `storage`. O `content.js`, que já está injetado em cada
+aba, escuta `storage.onChanged` e aplica a mudança na hora em todas as abas
+abertas. Isso evita `tabs.query` e `tabs.sendMessage` — APIs que a Firefox
+Add-ons classifica como coleta de dados e que exigiriam permissões extras.
+
+### O que muda no `manifest.json` para o Firefox
+
+```json
+"browser_specific_settings": {
+  "gecko": {
+    "id": "sigaa-dark-mode@hgiulliano.com.br",
+    "strict_min_version": "115.0",
+    "data_collection_permissions": { "required": [], "optional": [] }
+  }
+}
+```
+
+- **`id` é obrigatório** — sem ele a extensão é tratada como temporária e
+  esquece a configuração ao reiniciar o navegador.
+- **`strict_min_version: "115.0"`** é o ESR do Firefox de 2023.
+- **`data_collection_permissions`** existe porque a AMO passou a exigir essa
+  declaração em 2025. Como a extensão não usa nenhuma API de coleta de dados
+  (foi justamente por isso que o `tabs.query` saiu), os dois arrays ficam
+  vazios.
+- **Sem `background`.** Um `service_worker` só roda no Firefox 121+, e ele era
+  redundante: o `content.js` já aplica o tema ligado antes de ler o storage.
+- **Sem `host_permissions`.** Existiam apenas para o `tabs.query`. A injeção
+  continua funcionando via `content_scripts.matches`.
 
 **Como o tema funciona:** cada paleta é um bloco
 `html.sigaa-dark-mode[data-sd-tema="roxo"] { --sd-…: … }` no topo do CSS. O
