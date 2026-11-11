@@ -5,53 +5,47 @@
   "description": "Tema escuro para o portal SIGAA do CEFET-MG, com 5 paletas. Menos luz, mais foco.",
   "version": "1.1.0",
   "author": "Henrique Giulliano",
-
   "icons": {
-    "16":  "icons/icon16.png",
-    "32":  "icons/icon32.png",
-    "48":  "icons/icon48.png",
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16":  "icons/icon16.png",
-      "32":  "icons/icon32.png",
-      "48":  "icons/icon48.png",
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
       "128": "icons/icon128.png"
     },
     "default_title": "SIGAA Dark Mode"
   },
-
   "content_scripts": [
     {
       "matches": [
         "https://sig.cefetmg.br/sigaa/*"
       ],
-      "css": ["style.css"],
-      "js":  ["content.js"],
+      "css": [
+        "style.css"
+      ],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_start",
       "all_frames": true
     }
   ],
-
   "permissions": [
     "storage"
   ],
-
   "host_permissions": [
     "https://sig.cefetmg.br/sigaa/*"
   ],
-
   "browser_specific_settings": {
     "gecko": {
       "id": "sigaa-dark-mode@hgiulliano.com.br",
       "strict_min_version": "115.0"
     }
-  },
-
-  "background": {
-    "service_worker": "background.js"
   }
 }

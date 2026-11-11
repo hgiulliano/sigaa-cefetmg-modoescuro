@@ -37,6 +37,7 @@ Feito de aluno para aluno, pra poupar a vista nas madrugadas de estudo.
 </table>
 
 📸 Todas as screenshots do portal, uma por tema, em [`screenshots/`](screenshots/) no tamanho **1280×800**. Dados pessoais estão cobertos.
+<br>O seletor de temas dentro do popup: [`screenshots/popup-temas.png`](screenshots/popup-temas.png)
 
 ---
 
@@ -76,6 +77,7 @@ As atualizações chegam automaticamente.
 Clique no ícone de quebra-cabeça ao lado da barra de endereço e depois no alfinete ao lado de **SIGAA Dark Mode**. Assim o botão de ligar/desligar e a escolha de tema ficam sempre à mão.
 
 ---
+
 
 ## Como usar
 
@@ -124,6 +126,9 @@ serve para os dois.
 - **`id` é obrigatório no Firefox** — sem ele a extensão é tratada como
   temporária e esquece a configuração ao reiniciar o navegador.
 - **`strict_min_version: "115.0"`** é o ESR do Firefox de 2023.
+- **Sem `background`.** Um `service_worker` só roda no Firefox 121+, então a
+  extensão não declara nenhum: o `content.js` já aplica o tema padrão (ligado)
+  antes de ler o storage, o que torna o service worker redundante.
 
 Dois `:has()` que eu tinha usado no CSS foram movidos para o `content.js`, porque
 `:has()` só existe no Firefox 121+ (e no Chrome 105+). Em JS, funcionam até o
@@ -139,7 +144,6 @@ Dois `:has()` que eu tinha usado no CSS foram movidos para o `content.js`, porqu
 > Extensão temporária é removida ao fechar o Firefox. Para ficar fixa, publique
 > na [AMO](https://addons.mozilla.org/developers/) — o processo aceita o mesmo
 > ZIP da Chrome Web Store.
-
 ---
 
 ## Temas
@@ -153,11 +157,8 @@ Dois `:has()` que eu tinha usado no CSS foram movidos para o `content.js`, porqu
 | **Vermelho** | `#1e0b0b` | `#ff9e9e` | [ver](screenshots/portal_vermelho.png) |
 
 Cada tema é um bloco de variáveis CSS no começo do `style.css`. Como **todas** as
-regras do tema usam `var(--sd-*)`.
-
-## 🎨 Criando seus próprios temas
-
-Veja o guia completo em [**`docs/CRIANDO-TEMAS.md`**](docs/CRIANDO-TEMAS.md).
+regras do tema usam `var(--sd-*)`, criar um tema novo é só colar mais um bloco —
+veja o guia completo em [**`docs/CRIANDO-TEMAS.md`**](docs/CRIANDO-TEMAS.md).
 
 ---
 
@@ -237,7 +238,6 @@ sigaa-cefetmg-modoescuro/
 │                        #   + neutraliza estilos inline do JSF/Ajax
 ├── popup.html           # Interface: toggle + seletor de temas
 ├── popup.js             # Lógica do popup e persistência
-├── background.js        # Service Worker (ativa na primeira instalação)
 ├── docs/
 │   └── CRIANDO-TEMAS.md # Guia para adicionar paletas novas
 ├── screenshots/          # Screenshots 1280x800 de cada tema
@@ -306,7 +306,7 @@ Distribuído sob a licença [MIT](LICENSE).
 &nbsp;·&nbsp;
 [⭐ Dar uma estrela no GitHub](../../stargazers)
 
----
+<br><br>
 
 Feito por [@hgiulliano](https://github.com/hgiulliano)
 
