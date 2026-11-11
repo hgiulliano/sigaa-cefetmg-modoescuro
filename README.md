@@ -129,7 +129,12 @@ veja o guia completo em [**`docs/CRIANDO-TEMAS.md`**](docs/CRIANDO-TEMAS.md).
 
 ---
 
-## O que foi corrigido nesta versão (1.1.0)
+## O que foi corrigido nesta versão (1.1.x)
+
+> **1.1.1** — ajuste de compatibilidade com a Firefox Add-ons: removidos
+> `tabs.query`/`tabs.sendMessage` (a sincronização passou a usar
+> `storage.onChanged`), removida a `host_permissions` e declarado
+> `data_collection_permissions`. Nada muda para quem já usa a extensão.
 
 Os principais bugs visuais da versão anterior estão resolvados:
 
