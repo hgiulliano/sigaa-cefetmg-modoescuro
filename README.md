@@ -61,18 +61,10 @@ As atualizações chegam automaticamente.
 
 As atualizações também chegam automaticamente.
 
-Quer testar antes de publicar, ou testar uma versão que ainda não chegou à loja?
-
-1. Abra `about:debugging#/runtime/this-firefox`.
-2. Clique em **Carregar extensão temporária…**.
-3. Selecione o `manifest.json` dentro da pasta `sigaa-cefetmg-modoescuro-main/`.
-4. Acesse o SIGAA.
-
-> [!NOTE]
-> A extensão temporária é removida ao fechar o Firefox. Ela funciona a partir do
-> Firefox 115 (ESR) e usa o mesmo ZIP da Chrome Web Store.
 
 ### Opção 3: Instalação manual (modo desenvolvedor)
+
+## CHROME WEB STORE
 
 Útil se você quiser testar o código ou uma versão mais recente que ainda não chegou à loja.
 
@@ -94,12 +86,22 @@ Quer testar antes de publicar, ou testar uma versão que ainda não chegou à lo
 
 Clique no ícone de quebra-cabeça ao lado da barra de endereço e depois no alfinete ao lado de **SIGAA Dark Mode**. Assim o botão de ligar/desligar e a escolha de tema ficam sempre à mão.
 
----### Dica: fixe a extensão na barra
-
-Clique no ícone de quebra-cabeça ao lado da barra de endereço e depois no alfinete ao lado de **SIGAA Dark Mode**. Assim o botão de ligar/desligar e a escolha de tema ficam sempre à mão.
-
 ---
 
+## FIREFOX
+
+Quer testar antes de publicar, ou testar uma versão que ainda não chegou à loja?
+
+1. Abra `about:debugging#/runtime/this-firefox`.
+2. Clique em **Carregar extensão temporária…**.
+3. Selecione o `manifest.json` dentro da pasta `sigaa-cefetmg-modoescuro-main/`.
+4. Acesse o SIGAA.
+
+> [!NOTE]
+> A extensão temporária é removida ao fechar o Firefox. Ela funciona a partir do
+> Firefox 115 (ESR) e usa o mesmo ZIP da Chrome Web Store.
+
+---
 
 ## Como usar
 
