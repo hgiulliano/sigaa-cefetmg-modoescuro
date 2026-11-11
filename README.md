@@ -61,19 +61,10 @@ As atualizações chegam automaticamente.
 
 As atualizações também chegam automaticamente.
 
-Quer testar antes de publicar, ou testar uma versão que ainda não chegou à loja?
-
-1. Abra `about:debugging#/runtime/this-firefox`.
-2. Clique em **Carregar extensão temporária…**.
-3. Selecione o `manifest.json` dentro da pasta `sigaa-cefetmg-modoescuro-main/`.
-4. Acesse o SIGAA.
-
-> [!NOTE]
-> A extensão temporária é removida ao fechar o Firefox. Ela precisa do **Firefox 142+**
-> (por causa do `data_collection_permissions`, exigido pela AMO) e usa o mesmo ZIP da
-> Chrome Web Store.
 
 ### Opção 3: Instalação manual (modo desenvolvedor)
+
+## CHROME WEB STORE
 
 Útil se você quiser testar o código ou uma versão mais recente que ainda não chegou à loja.
 
@@ -95,12 +86,23 @@ Quer testar antes de publicar, ou testar uma versão que ainda não chegou à lo
 
 Clique no ícone de quebra-cabeça ao lado da barra de endereço e depois no alfinete ao lado de **SIGAA Dark Mode**. Assim o botão de ligar/desligar e a escolha de tema ficam sempre à mão.
 
----### Dica: fixe a extensão na barra
-
-Clique no ícone de quebra-cabeça ao lado da barra de endereço e depois no alfinete ao lado de **SIGAA Dark Mode**. Assim o botão de ligar/desligar e a escolha de tema ficam sempre à mão.
-
 ---
 
+## FIREFOX
+
+Quer testar antes de publicar, ou testar uma versão que ainda não chegou à loja?
+
+1. Abra `about:debugging#/runtime/this-firefox`.
+2. Clique em **Carregar extensão temporária…**.
+3. Selecione o `manifest.json` dentro da pasta `sigaa-cefetmg-modoescuro-main/`.
+4. Acesse o SIGAA.
+
+> [!NOTE]
+> A extensão temporária é removida ao fechar o Firefox. Ela precisa do
+> **Firefox 142+** (causa do `data_collection_permissions`) e usa o mesmo ZIP da
+> Chrome Web Store.
+
+---
 
 ## Como usar
 
@@ -135,12 +137,10 @@ veja o guia completo em [**`docs/CRIANDO-TEMAS.md`**](docs/CRIANDO-TEMAS.md).
 > **1.1.2** — correções de compatibilidade com a Firefox Add-ons:
 > `data_collection_permissions.required` agora declara `"none"` (a AMO não
 > aceita array vazio) e `strict_min_version` subiu de 115 para **142**, que é
-> a versão em que o próprio `data_collection_permissions` passou a existir.
-> Nada muda para quem já usa a extensão.
+> onde o próprio `data_collection_permissions` passou a existir.
 
 > **1.1.1** — removidos `tabs.query`/`tabs.sendMessage` (a sincronização passou
-> a usar `storage.onChanged`) e removida a `host_permissions`. Nada muda para
-> quem já usa a extensão.
+> a usar `storage.onChanged`) e removida a `host_permissions`.
 
 Os principais bugs visuais da versão anterior estão resolvados:
 
@@ -254,13 +254,11 @@ Add-ons classifica como coleta de dados e que exigiriam permissões extras.
 - **`id` é obrigatório** — sem ele a extensão é tratada como temporária e
   esquece a configuração ao reiniciar o navegador.
 - **`data_collection_permissions: { "required": ["none"] }`** — a AMO passou a
-  exigir essa declaração em 2025. `"none"` é o valor canônico para "esta
-  extensão não coleta dados do usuário", e a lista **não pode ser vazia** (o
-  validador rejeita). Chega a ser verdade: a extensão só guarda duas
-  preferências no `storage` local do navegador.
+  exigir essa declaração em 2025. `"none"` é o valor canônico para "não coleta
+  dados do usuário", e a lista **não pode ser vazia** (o validador rejeita).
 - **`strict_min_version: "142.0"`** — subiu de 115 porque o
   `data_collection_permissions` só existe a partir do Firefox **140** no desktop
-  e **142** no Android; declarar menos que isso gera erro de validação.
+  e **142** no Android; declarar menos que isso é erro de validação.
 - **Sem `background`.** Um `service_worker` só roda no Firefox 121+, e ele era
   redundante: o `content.js` já aplica o tema ligado antes de ler o storage.
 - **Sem `host_permissions`.** Existiam apenas para o `tabs.query`. A injeção
