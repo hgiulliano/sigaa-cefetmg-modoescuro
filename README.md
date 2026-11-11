@@ -37,7 +37,6 @@ Feito de aluno para aluno, pra poupar a vista nas madrugadas de estudo.
 </table>
 
 📸 Todas as screenshots do portal, uma por tema, em [`screenshots/`](screenshots/) no tamanho **1280×800**. Dados pessoais estão cobertos.
-<br>O seletor de temas dentro do popup: [`screenshots/popup-temas.png`](screenshots/popup-temas.png)
 
 ---
 
@@ -77,7 +76,6 @@ As atualizações chegam automaticamente.
 Clique no ícone de quebra-cabeça ao lado da barra de endereço e depois no alfinete ao lado de **SIGAA Dark Mode**. Assim o botão de ligar/desligar e a escolha de tema ficam sempre à mão.
 
 ---
-
 
 ## Como usar
 
@@ -141,6 +139,7 @@ Dois `:has()` que eu tinha usado no CSS foram movidos para o `content.js`, porqu
 > Extensão temporária é removida ao fechar o Firefox. Para ficar fixa, publique
 > na [AMO](https://addons.mozilla.org/developers/) — o processo aceita o mesmo
 > ZIP da Chrome Web Store.
+
 ---
 
 ## Temas
@@ -154,8 +153,11 @@ Dois `:has()` que eu tinha usado no CSS foram movidos para o `content.js`, porqu
 | **Vermelho** | `#1e0b0b` | `#ff9e9e` | [ver](screenshots/portal_vermelho.png) |
 
 Cada tema é um bloco de variáveis CSS no começo do `style.css`. Como **todas** as
-regras do tema usam `var(--sd-*)`, criar um tema novo é só colar mais um bloco —
-veja o guia completo em [**`docs/CRIANDO-TEMAS.md`**](docs/CRIANDO-TEMAS.md).
+regras do tema usam `var(--sd-*)`.
+
+## 🎨 Criando seus próprios temas
+
+Veja o guia completo em [**`docs/CRIANDO-TEMAS.md`**](docs/CRIANDO-TEMAS.md).
 
 ---
 
@@ -304,7 +306,7 @@ Distribuído sob a licença [MIT](LICENSE).
 &nbsp;·&nbsp;
 [⭐ Dar uma estrela no GitHub](../../stargazers)
 
-<br><br>
+---
 
 Feito por [@hgiulliano](https://github.com/hgiulliano)
 
