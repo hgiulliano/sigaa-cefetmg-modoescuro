@@ -315,8 +315,8 @@ Distribuído sob a licença [MIT](LICENSE).
 &nbsp;·&nbsp;
 [⭐ Dar uma estrela no GitHub](../../stargazers)
 
-<br><br>
-
+<br>
+---
 Feito por [@hgiulliano](https://github.com/hgiulliano)
 
 </div>
